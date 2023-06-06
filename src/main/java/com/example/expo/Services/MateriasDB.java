@@ -34,7 +34,7 @@ public class MateriasDB {
             stnt.close();
             return Materias;
         } catch (Exception e) {
-            System.out.println("ocurrio una excepcion en mascotasDB");
+            System.out.println("ocurrio una excepcion en materia");
             int x = 1;
         }
         return null;

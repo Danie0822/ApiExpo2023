@@ -1,53 +1,53 @@
 package com.example.expo.Services;
 
+
+import com.example.expo.Models.Secciones;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.example.expo.Models.TiposPersonas;
 
+public class SeccionesDB {
+    static Connection _cn;
 
-public class TiposPersonasDB {
-   static Connection _cn;
-
-    public TiposPersonasDB(){
+    public SeccionesDB(){
         _cn = new Conexion().openDB();
     }
-
-    public List<TiposPersonas> obtenerMascotas(){
+    public List<Secciones> ObtenerSecciones(){
         try {
             Statement stnt = _cn.createStatement();
-            String query = "select * from tbTiposPersonas";
+            String query = "select * from tbSecciones";
 
-            List<TiposPersonas> TiposPersonas = new ArrayList<>();
+            List<Secciones> Secciones = new ArrayList<>();
 
             ResultSet result = stnt.executeQuery(query);
 
             while(result.next()){
-                TiposPersonas TiposPersonas2 = new TiposPersonas(
-                    result.getInt("idTipoPersona"),
-                    result.getString("tipoPersona")
+                Secciones Secciones2 = new Secciones(
+                        result.getInt("idSeccion"),
+                        result.getString("seccion")
                 );
 
-                TiposPersonas.add(TiposPersonas2);
+                Secciones.add(Secciones2);
 
             }
             result.close();
             stnt.close();
-            return TiposPersonas;
+            return Secciones;
         } catch (Exception e) {
-            System.out.println("ocurrio una excepcion en tipo Persona");
+            System.out.println("ocurrio una excepcion en Secciones");
             int x = 1;
         }
         return null;
     }
 
-    public static int Insertar(TiposPersonas TiposPersonas){
-        new TiposPersonasDB();
-        String sql1 = "exec AgregarTiposPersonas ?;";
+    public static int InsertarSecciones(Secciones Secciones){
+        new SeccionesDB();
+        String sql1 = "exec AgregarSecciones ?;";
 
         try {
             PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setString(1, TiposPersonas.getTipoPersona());
+            statement.setString(1, Secciones.getSeccion());
             try {
                 statement.executeUpdate();
                 _cn.close();
@@ -64,9 +64,9 @@ public class TiposPersonasDB {
 
         return 0;
     }
-    public static int Eliminar(int id){
-        new TiposPersonasDB();
-        String sql1 = "exec DeleteTiposPersonas ?;";
+    public static int EliminarSecciones(int id){
+        new SeccionesDB();
+        String sql1 = "exec DeleteSeccion ?;";
 
         try {
             PreparedStatement statement = _cn.prepareStatement(sql1);
@@ -92,15 +92,15 @@ public class TiposPersonasDB {
 
     }
 
-    public static int Actulizar(TiposPersonas TiposPersonas){
-        new TiposPersonasDB();
+    public static int Actulizar(Secciones Secciones){
+        new SeccionesDB();
 
-        String sql1 = "exec UpdateTiposPersonas ?, ?;";
+        String sql1 = "exec UpdateSecciones ?, ?;";
 
         try {
             PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setString(1, TiposPersonas.getTipoPersona());
-            statement.setInt(2, TiposPersonas.getIdTipoPersona());
+            statement.setString(1, Secciones.getSeccion());
+            statement.setInt(2, Secciones.getIdSeccion());
             try {
                 statement.executeUpdate();
                 _cn.close();

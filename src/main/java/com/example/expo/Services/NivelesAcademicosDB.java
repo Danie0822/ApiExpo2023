@@ -34,7 +34,7 @@ public class NivelesAcademicosDB {
             stnt.close();
             return NivelesAcademicos;
         } catch (Exception e) {
-            System.out.println("ocurrio una excepcion en mascotasDB");
+            System.out.println("ocurrio una excepcion en Niveles Academicos");
             int x = 1;
         }
         return null;
