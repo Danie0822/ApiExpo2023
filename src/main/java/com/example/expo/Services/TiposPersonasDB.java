@@ -2,7 +2,12 @@ package com.example.expo.Services;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import com.example.expo.Models.Grados;
+import com.example.expo.Models.GradosView;
 import com.example.expo.Models.TiposPersonas;
 
 
@@ -12,109 +17,135 @@ public class TiposPersonasDB {
     public TiposPersonasDB(){
         _cn = new Conexion().openDB();
     }
+        public CompletableFuture<List<?>> obtenerTiposPersonasAsync() {
+            return CompletableFuture.supplyAsync(() -> {
+                String query = "select * from tbTiposPersonas;";
 
-    public List<TiposPersonas> obtenerMascotas(){
-        try {
-            Statement stnt = _cn.createStatement();
-            String query = "select * from tbTiposPersonas";
+                try (Statement stnt = _cn.createStatement()) {
+                    List<TiposPersonas> TiposPersonas = new ArrayList<>();
 
-            List<TiposPersonas> TiposPersonas = new ArrayList<>();
+                    ResultSet result = stnt.executeQuery(query);
 
-            ResultSet result = stnt.executeQuery(query);
+                    while(result.next()){
+                        TiposPersonas TiposPersonas2 = new TiposPersonas(
+                                result.getInt("idTipoPersona"),
+                                result.getString("tipoPersona")
+                        );
 
-            while(result.next()){
-                TiposPersonas TiposPersonas2 = new TiposPersonas(
-                    result.getInt("idTipoPersona"),
-                    result.getString("tipoPersona")
-                );
+                        TiposPersonas.add(TiposPersonas2);
+                    }
+                    stnt.close();
+                    return TiposPersonas;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Collections.emptyList();
+                }
+            }).whenComplete((grados, throwable) -> {
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
 
-                TiposPersonas.add(TiposPersonas2);
-
-            }
-            result.close();
-            stnt.close();
-            return TiposPersonas;
-        } catch (Exception e) {
-            System.out.println("ocurrio una excepcion en tipo Persona");
-            int x = 1;
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
         }
-        return null;
-    }
 
-    public static int Insertar(TiposPersonas TiposPersonas){
-        new TiposPersonasDB();
-        String sql1 = "exec AgregarTiposPersonas ?;";
-
-        try {
-            PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setString(1, TiposPersonas.getTipoPersona());
+    public static CompletableFuture<Integer> insertarTiposPersonasAsync(TiposPersonas TiposPersonas) {
+        return CompletableFuture.supplyAsync(() -> {
+            new TiposPersonasDB();
+            PreparedStatement statement = null;
             try {
+                statement = _cn.prepareStatement(" exec AgregarTiposPersonas ?;");
+                statement.setString(1, TiposPersonas.getTipoPersona());
                 statement.executeUpdate();
-                _cn.close();
-                statement.close();
                 return 1;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return 0;
+            } finally {
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return 0;
+        });
     }
-    public static int Eliminar(int id){
-        new TiposPersonasDB();
-        String sql1 = "exec DeleteTiposPersonas ?;";
-
-        try {
-            PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setInt(1, id);
-
+    public static CompletableFuture<Integer> eliminarTiposPersonasAsync(int id){
+        return CompletableFuture.supplyAsync(() -> {
+            new TiposPersonasDB();
+            PreparedStatement statement = null;
             try {
+                statement = _cn.prepareStatement("exec DeleteTiposPersonas ?;");
+                statement.setInt(1, id);
+
                 statement.executeUpdate();
-                _cn.close();
-                statement.close();
                 return 1;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return 0;
+            } finally {
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return 0;
+        });
 
 
 
     }
 
-    public static int Actulizar(TiposPersonas TiposPersonas){
-        new TiposPersonasDB();
-
-        String sql1 = "exec UpdateTiposPersonas ?, ?;";
-
-        try {
-            PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setString(1, TiposPersonas.getTipoPersona());
-            statement.setInt(2, TiposPersonas.getIdTipoPersona());
+    public static CompletableFuture<Integer> ActulizarTiposPersonasAsync(TiposPersonas TiposPersonas){
+        return CompletableFuture.supplyAsync(() -> {
+            new TiposPersonasDB();
+            PreparedStatement statement = null;
             try {
+                statement = _cn.prepareStatement("exec UpdateTiposPersonas ?, ?;");
+                statement.setString(1, TiposPersonas.getTipoPersona());
+                statement.setInt(2, TiposPersonas.getIdTipoPersona());
                 statement.executeUpdate();
-                _cn.close();
-                statement.close();
                 return 1;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return 0;
+            } finally {
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return 0;
+        });
     }
 }

@@ -6,7 +6,9 @@ import com.example.expo.Models.Especialidades;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EspecialidadesDB {
 
@@ -15,108 +17,157 @@ public class EspecialidadesDB {
     public EspecialidadesDB(){
         _cn = new Conexion().openDB();
     }
-    public List<Especialidades> ObtenerEspecialidades(){
-        try {
-            Statement stnt = _cn.createStatement();
-            String query = "select * from tbEspecialidades";
+    public CompletableFuture<List<?>> obtenerEspecialidadesAsync() {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Especialidades> especialidades = new ArrayList<>();
+            Statement statement = null;
 
-            List<Especialidades> Especialidades = new ArrayList<>();
-
-            ResultSet result = stnt.executeQuery(query);
-
-            while(result.next()){
-                Especialidades Especialidades2 = new Especialidades(
-                        result.getInt("idEspecialidad"),
-                        result.getString("especialidad")
-                );
-
-                Especialidades.add(Especialidades2);
-
-            }
-            result.close();
-            stnt.close();
-            return Especialidades;
-        } catch (Exception e) {
-            System.out.println("ocurrio una excepcion en Secciones2");
-            int x = 1;
-        }
-        return null;
-    }
-
-    public static int InsertarEspecialidades(Especialidades Especialidades){
-        new EspecialidadesDB();
-        String sql1 = "exec AgregarEspecialidades ?;";
-
-        try {
-            PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setString(1, Especialidades.getEspecialidad());
             try {
-                statement.executeUpdate();
-                _cn.close();
-                statement.close();
-                return 1;
+                statement = _cn.createStatement();
+                ResultSet result = statement.executeQuery("SELECT * FROM tbEspecialidades;");
+
+                while (result.next()) {
+                    Especialidades especialidad = new Especialidades(
+                            result.getInt("idEspecialidad"),
+                            result.getString("especialidad")
+                    );
+
+                    especialidades.add(especialidad);
+                }
+
+                result.close();
+                return especialidades;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((especialidades, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return 0;
+        });
     }
-    public static int EliminarEspecialidades(int id){
-        new EspecialidadesDB();
-        String sql1 = "exec DeleteEspecialidades ?;";
 
-        try {
-            PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setInt(1, id);
 
+
+    public static CompletableFuture<Integer> insertarEspecialidadesAsync(Especialidades especialidad) {
+        return CompletableFuture.supplyAsync(() -> {
+            new EspecialidadesDB();
+            String sql = "exec AgregarEspecialidades ?;";
+
+            PreparedStatement statement = null;
             try {
+                statement = _cn.prepareStatement(sql);
+                statement.setString(1, especialidad.getEspecialidad());
                 statement.executeUpdate();
-                _cn.close();
-                statement.close();
+
                 return 1;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return 0;
+            } finally {
+                try {
+                    if (statement != null && !statement.isClosed()) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return 0;
-
-
-
-    }
-
-    public static int Actulizar(Especialidades Especialidades){
-        new EspecialidadesDB();
-
-        String sql1 = "exec UpdateEspecialidades ?, ?;";
-
-        try {
-            PreparedStatement statement = _cn.prepareStatement(sql1);
-            statement.setString(1, Especialidades.getEspecialidad());
-            statement.setInt(2, Especialidades.getIdEspecialidad());
+        }).whenComplete((result, throwable) -> {
             try {
-                statement.executeUpdate();
-                _cn.close();
-                statement.close();
-                return 1;
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return 0;
+        });
     }
+
+
+
+    public static CompletableFuture<Integer> eliminarEspecialidadesAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            new EspecialidadesDB();
+            String sql = "exec DeleteEspecialidades ?;";
+            PreparedStatement statement = null;
+            try {
+                statement = _cn.prepareStatement(sql);
+                statement.setInt(1, id);
+                statement.executeUpdate();
+                return 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0;
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((result, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+
+    public static CompletableFuture<Integer> actualizarEspecialidadesAsync(Especialidades especialidad) {
+        return CompletableFuture.supplyAsync(() -> {
+            new EspecialidadesDB();
+
+            String sql = "exec UpdateEspecialidades ?, ?;";
+            PreparedStatement statement = null;
+            try  {
+                statement = _cn.prepareStatement(sql);
+                statement.setString(1, especialidad.getEspecialidad());
+                statement.setInt(2, especialidad.getIdEspecialidad());
+                statement.executeUpdate();
+                return 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0;
+            }
+            finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((result, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 }

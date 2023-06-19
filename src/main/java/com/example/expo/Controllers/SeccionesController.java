@@ -1,49 +1,60 @@
 package com.example.expo.Controllers;
 
 
+import com.example.expo.Models.Grados;
 import com.example.expo.Models.Secciones;
 import com.example.expo.Models.ServiceResponse;
+import com.example.expo.Services.GradosDB;
 import com.example.expo.Services.SeccionesDB;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("Secciones")
 public class SeccionesController {
+
     @GetMapping("/list")
-    public List<Secciones> ObtenerSecciones() {
-        return new SeccionesDB().ObtenerSecciones();
+    public CompletableFuture<List<?>> obtenerGrupos() {
+        return new SeccionesDB().obtenerSeccionesAsync();
     }
     @PostMapping("/save")
-    public ResponseEntity<ServiceResponse> save(@RequestBody Secciones Secciones) {
-        ServiceResponse serviceResponse = new ServiceResponse();
+    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Secciones Secciones) {
+        return SeccionesDB.insertarSeccionesAsync(Secciones)
+                .thenApply(result -> {
+                    ServiceResponse serviceResponse = new ServiceResponse();
+                    if (result == 1) {
+                        serviceResponse.setMessage("Item saved with success");
+                    }
+                    return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
+                });
+    }
 
-        int result = SeccionesDB.InsertarSecciones(Secciones);
-        if (result == 1) {
-            serviceResponse.setMessage("Item saved with success");
-        }
-        return new  ResponseEntity<>(serviceResponse, HttpStatus.OK);
-    }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ServiceResponse> update(@PathVariable int id) {
-        ServiceResponse serviceResponse = new ServiceResponse();
-        int result = SeccionesDB.EliminarSecciones(id);
-        if (result == 1) {
-            serviceResponse.setMessage("Item removed with success");
-        }
-        return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
+    public CompletableFuture<ResponseEntity<ServiceResponse>> delete(@PathVariable int id) {
+        return  SeccionesDB.eliminarSeccionesAsync(id)
+                .thenApply(result -> {
+                    ServiceResponse serviceResponse = new ServiceResponse();
+                    if (result == 1) {
+                        serviceResponse.setMessage("Item removed with success");
+                    }
+                    return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
+                });
     }
+
     @PutMapping("/update")
-    public ResponseEntity<ServiceResponse> update(@RequestBody Secciones Secciones) {
-        ServiceResponse serviceResponse = new ServiceResponse();
-        int result = SeccionesDB.Actulizar(Secciones);
-        if (result == 1) {
-            serviceResponse.setMessage("Item update with success");
-        }
-        return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Secciones Secciones) {
+        return  SeccionesDB.ActulizarSeccionesAsync(Secciones)
+                .thenApply(result -> {
+                    ServiceResponse serviceResponse = new ServiceResponse();
+                    if (result == 1) {
+                        serviceResponse.setMessage("Item updated with success");
+                    }
+                    return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
+                });
     }
 }
 

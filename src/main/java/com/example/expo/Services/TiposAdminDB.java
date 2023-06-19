@@ -2,8 +2,7 @@ package com.example.expo.Services;
 
 import com.example.expo.Models.Grados;
 import com.example.expo.Models.GradosView;
-import com.example.expo.Models.GruposTecnicos;
-
+import com.example.expo.Models.tbAdmi;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,32 +10,32 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class GruposTecnicosDB {
-
+public class TiposAdminDB {
     static Connection _cn;
 
-    public GruposTecnicosDB(){
+
+    public TiposAdminDB(){
         _cn = new Conexion().openDB();
     }
-    public CompletableFuture<List<?>> obtenerGruposTecnicosAsync() {
+        public CompletableFuture<List<?>> obtenerTiposAdminAsync() {
             return CompletableFuture.supplyAsync(() -> {
-                String query = "select * from tbGruposTecnicos;";
+                String query = "select * from tbAdmi;";
 
                 try (Statement stnt = _cn.createStatement()) {
-                    List<GruposTecnicos> gruposTecnicos = new ArrayList<>();
+                    List<tbAdmi> Admi = new ArrayList<>();
 
                     ResultSet result = stnt.executeQuery(query);
 
                     while(result.next()){
-                        GruposTecnicos GruposTecnicos2 = new GruposTecnicos(
-                                result.getInt("idGrupoTecnico"),
-                                result.getString("grupoTecnico")
+                        tbAdmi tbAdmi2 = new tbAdmi(
+                                result.getInt("idAdmi"),
+                                result.getString("tipoAdmi")
                         );
 
-                        gruposTecnicos.add(GruposTecnicos2);
+                        Admi.add(tbAdmi2);
                     }
                     stnt.close();
-                    return gruposTecnicos;
+                    return Admi;
                 } catch (Exception e) {
                     e.printStackTrace();
                     return Collections.emptyList();
@@ -54,13 +53,16 @@ public class GruposTecnicosDB {
         }
 
 
-    public static CompletableFuture<Integer> insertarGruposTecnicosAsync(GruposTecnicos GruposTecnicos) {
+
+
+
+    public static CompletableFuture<Integer> insertarTiposAdminAsync(tbAdmi Admi) {
         return CompletableFuture.supplyAsync(() -> {
-            new GruposTecnicosDB();
+            new TiposAdminDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec AgregarGruposTecnicos ?;");
-                statement.setString(1, GruposTecnicos.getGrupoTecnico());
+                statement = _cn.prepareStatement("exec AgregarAdmi ?;");
+                statement.setString(1, Admi.getTipoAdmi());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
@@ -85,13 +87,12 @@ public class GruposTecnicosDB {
         });
     }
 
-
-    public static CompletableFuture<Integer> eliminarGruposTecnivosAsync(int id){
+    public static CompletableFuture<Integer> eliminarTiposAdminAsync(int id){
         return CompletableFuture.supplyAsync(() -> {
-            new GruposTecnicosDB();
+            new TiposAdminDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec DeleteGruposTecnicos ?;");
+                statement = _cn.prepareStatement("exec DeleteAdmin ?;");
                 statement.setInt(1, id);
 
                 statement.executeUpdate();
@@ -122,15 +123,14 @@ public class GruposTecnicosDB {
     }
 
 
-
-    public static CompletableFuture<Integer> ActulizarGruposTecnicosAsync(GruposTecnicos GruposTecnicos){
+    public static CompletableFuture<Integer> ActulizarTiposAdminAsync(tbAdmi Admi){
         return CompletableFuture.supplyAsync(() -> {
-            new GruposTecnicosDB();
+            new TiposAdminDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec UpdateGruposTecnicos ?, ?;");
-                statement.setString(1, GruposTecnicos.getGrupoTecnico());
-                statement.setInt(2, GruposTecnicos.getIdGrupoTecnico());
+                statement = _cn.prepareStatement("exec UpdateAdmin ?,?;");
+                statement.setString(1, Admi.getTipoAdmi());
+                statement.setInt(2, Admi.getIdAdmi());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
@@ -155,3 +155,4 @@ public class GruposTecnicosDB {
         });
     }
 }
+
