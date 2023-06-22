@@ -72,7 +72,7 @@ public class EncargadosDB {
                 statement = _cn.prepareStatement(sql);
                 statement.setString(1, Encargados.getNombrePersona());
                 statement.setString(2, Encargados.getApellidoPersona());
-                statement.setInt(3, Encargados.getIdEncargado());
+                statement.setInt(3, Encargados.getIdPersona());
                 statement.setString(4, Encargados.getCorreoEncargado());
                 statement.executeUpdate();
 
@@ -147,7 +147,7 @@ public class EncargadosDB {
                 statement = _cn.prepareStatement(sql);
                 statement.setString(1, Encargados.getNombrePersona());
                 statement.setString(2, Encargados.getApellidoPersona());
-                statement.setInt(3, Encargados.getIdEncargado());
+                statement.setInt(3, Encargados.getIdPersona());
                 statement.setString(4, Encargados.getCorreoEncargado());
                 statement.setInt(5, Encargados.getIdEncargado());
                 statement.executeUpdate();
