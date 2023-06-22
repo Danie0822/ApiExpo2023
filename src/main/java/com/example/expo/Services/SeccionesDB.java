@@ -41,7 +41,7 @@ public class SeccionesDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((Secciones, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 

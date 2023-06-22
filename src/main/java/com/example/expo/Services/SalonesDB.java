@@ -39,7 +39,7 @@ public class SalonesDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((Salones, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 

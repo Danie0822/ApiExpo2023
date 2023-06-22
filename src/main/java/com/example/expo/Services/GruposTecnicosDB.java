@@ -41,7 +41,7 @@ public class GruposTecnicosDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((gruposTecnicos, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 

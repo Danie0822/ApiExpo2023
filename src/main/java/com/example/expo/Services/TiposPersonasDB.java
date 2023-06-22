@@ -40,7 +40,7 @@ public class TiposPersonasDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((TiposPersonas, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 

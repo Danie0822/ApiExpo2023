@@ -40,7 +40,7 @@ public class TiposAdminDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((Admi, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 

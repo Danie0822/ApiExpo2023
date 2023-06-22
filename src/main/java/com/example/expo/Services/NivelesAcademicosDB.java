@@ -38,7 +38,7 @@ public class NivelesAcademicosDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((NivelesAcademicos, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 

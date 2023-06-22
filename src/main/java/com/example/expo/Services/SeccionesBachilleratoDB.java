@@ -18,7 +18,7 @@ public class SeccionesBachilleratoDB {
     }
         public CompletableFuture<List<?>> obtenerSeccionesBachilleratoAsync() {
             return CompletableFuture.supplyAsync(() -> {
-                String query = "    select * from tbSeccionesBachillerato;";
+                String query = "select * from tbSeccionesBachillerato;";
 
                 try (Statement stnt = _cn.createStatement()) {
                     List<SeccionesBachillerato> SeccionesBachillerato = new ArrayList<>();
@@ -39,7 +39,7 @@ public class SeccionesBachilleratoDB {
                     e.printStackTrace();
                     return Collections.emptyList();
                 }
-            }).whenComplete((grados, throwable) -> {
+            }).whenComplete((SeccionesBachillerato, throwable) -> {
                 try {
                     if (_cn != null && !_cn.isClosed()) {
 
