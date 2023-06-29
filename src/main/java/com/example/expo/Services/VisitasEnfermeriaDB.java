@@ -2,6 +2,7 @@ package com.example.expo.Services;
 
 import com.example.expo.Models.Encargados;
 import com.example.expo.Models.VisitasEnfermeria;
+import com.example.expo.Models.VisitasEnfermeriaString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,6 +29,52 @@ public class VisitasEnfermeriaDB {
                     VisitasEnfermeria visitasEnfermeria = new VisitasEnfermeria(
                             result.getInt("idVisitaEnfermeria"),
                             result.getInt("idPersona"),
+                            result.getInt("idPeriodo"),
+                            result.getString("fecha"),
+                            result.getString("detalleVisitia")
+                    );
+
+                    VisitasEnfermerias.add(visitasEnfermeria);
+                }
+
+                result.close();
+                return VisitasEnfermerias;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((VisitasEnfermerias, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<List<?>> obtenerVisitasEnfereriaStringAsync() {
+        return CompletableFuture.supplyAsync(() -> {
+            List<VisitasEnfermeriaString> VisitasEnfermerias = new ArrayList<>();
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                ResultSet result = statement.executeQuery("SELECT * FROM VisitasEnfermeriaString;");
+
+                while (result.next()) {
+                    VisitasEnfermeriaString visitasEnfermeria = new VisitasEnfermeriaString(
+                            result.getInt("idVisitaEnfermeria"),
+                            result.getString("idPersona"),
                             result.getInt("idPeriodo"),
                             result.getString("fecha"),
                             result.getString("detalleVisitia")
