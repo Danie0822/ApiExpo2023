@@ -3,6 +3,7 @@ package com.example.expo.Controllers;
 import com.example.expo.Services.FuncionesDB;
 import com.example.expo.Services.VisitasEnfermeriaDB;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,11 +19,30 @@ public class FuncionesController {
         List<?> CodigosConductuales = futureEspecialidades.join();
         return CodigosConductuales;
     }
+    @GetMapping("/CodigosConductuales/{idEstudiante}")
+    public List<?> obtenerCodigosConductualesStringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerCodigosConductualesStringPorEstudianteAsync(idEstudiante);
+        List<?> CodigosConductuales = futureEspecialidades.join();
+        return CodigosConductuales;
+    }
+    @GetMapping("/LlegadasTardes/{idEstudiante}")
+    public List<?> obtenerLlegadasTardeStringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerLlegadasTardeStringPorEstudianteAsync(idEstudiante);
+        List<?> LlegadasTardes = futureEspecialidades.join();
+        return LlegadasTardes;
+    }
+
     @GetMapping("/LlegadasTardes")
     public List<?> obtenerLlegadas() {
         CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerLlegadasTardeStringAsync();
         List<?> LlegadasTardes = futureEspecialidades.join();
         return LlegadasTardes;
+    }
+    @GetMapping("/Inasisitencias/{idEstudiante}")
+    public List<?> obtenerInasisitenciastringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerInasisitenciastringPorEstudianteAsync(idEstudiante);
+        List<?> Inasisitenciastring = futureEspecialidades.join();
+        return Inasisitenciastring;
     }
     @GetMapping("/Inasisitencias")
     public List<?> Inasisitenciastring() {
@@ -36,18 +56,33 @@ public class FuncionesController {
         List<?> Inasisitenciastring = futureEspecialidades.join();
         return Inasisitenciastring;
     }
+    @GetMapping("/Notificaciones/{idEstudiante}")
+    public List<?>obtenerNotificacionesstringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerNotificacionesstringPorEstudianteAsync(idEstudiante);
+        List<?> Notificaciones = futureEspecialidades.join();
+        return Notificaciones;
+    }
+
     @GetMapping("/Notificaciones")
     public List<?>  Notificaciones() {
         CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerNotificacionesstringAsync();
         List<?> Notificaciones = futureEspecialidades.join();
         return Notificaciones;
     }
+    @GetMapping("/Observaciones/{idEstudiante}")
+    public List<?>obtenerObservacionesStringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerObservacionesStringPorEstudianteAsync(idEstudiante);
+        List<?> Observaciones = futureEspecialidades.join();
+        return Observaciones;
+    }
+
     @GetMapping("/Observaciones")
     public List<?>  Observaciones() {
         CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerObservacionesStringAsync();
         List<?> Observaciones = futureEspecialidades.join();
         return Observaciones;
     }
+
 
 
 
