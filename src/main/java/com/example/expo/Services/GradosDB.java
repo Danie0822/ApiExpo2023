@@ -54,6 +54,45 @@ public class GradosDB {
             }
         });
     }
+    public CompletableFuture<List<?>> obtenerGradosintAsync() {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select * from tbGrados;";
+
+            try (Statement stnt = _cn.createStatement()) {
+                List<Grados> grados = new ArrayList<>();
+
+                ResultSet result = stnt.executeQuery(query);
+
+                while (result.next()) {
+                    Grados Grados2 = new Grados(
+                            result.getInt("idGrado"),
+                            result.getInt("idNivelAcademico"),
+                            result.getInt("idSeccion"),
+                            result.getInt("idSeccionBachillerato"),
+                            result.getInt("idDocenteEncargado"),
+                            result.getInt("idEspecialidad"),
+                            result.getInt("idGrupoTecnico")
+                    );
+
+                    grados.add(Grados2);
+                }
+                stnt.close();
+                return grados;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((grados, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
 
     public static CompletableFuture<Integer> insertarGradosAsync(Grados grados) {

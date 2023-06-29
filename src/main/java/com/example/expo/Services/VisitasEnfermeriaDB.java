@@ -1,6 +1,7 @@
 package com.example.expo.Services;
 
 import com.example.expo.Models.Encargados;
+import com.example.expo.Models.ObservacionesString;
 import com.example.expo.Models.VisitasEnfermeria;
 import com.example.expo.Models.VisitasEnfermeriaString;
 
@@ -61,6 +62,53 @@ public class VisitasEnfermeriaDB {
             }
         });
     }
+    public CompletableFuture<List<?>> obtenerVisitasEnfereriaStringPorEstudianteAsync(int idEstudiante) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<VisitasEnfermeriaString> VisitasEnfermeriaString = new ArrayList<>();
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                String query = "SELECT * FROM VisitasEnfermeriaString WHERE idPersona = " + idEstudiante;
+                ResultSet result = statement.executeQuery(query);
+
+                while (result.next()) {
+                    VisitasEnfermeriaString visitasEnfermeria = new VisitasEnfermeriaString(
+                            result.getInt("idVisitaEnfermeria"),
+                            result.getString("Persona"),
+                            result.getInt("idPeriodo"),
+                            result.getString("fecha"),
+                            result.getString("detalleVisitia"),
+                            result.getInt("idPersona")
+                    );
+
+                    VisitasEnfermeriaString.add(visitasEnfermeria);
+                }
+
+                result.close();
+                return VisitasEnfermeriaString;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((VisitasEnfermeriaString, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     public CompletableFuture<List<?>> obtenerVisitasEnfereriaStringAsync() {
         return CompletableFuture.supplyAsync(() -> {
@@ -74,10 +122,11 @@ public class VisitasEnfermeriaDB {
                 while (result.next()) {
                     VisitasEnfermeriaString visitasEnfermeria = new VisitasEnfermeriaString(
                             result.getInt("idVisitaEnfermeria"),
-                            result.getString("idPersona"),
+                            result.getString("Persona"),
                             result.getInt("idPeriodo"),
                             result.getString("fecha"),
-                            result.getString("detalleVisitia")
+                            result.getString("detalleVisitia"),
+                            result.getInt("idPersona")
                     );
 
                     VisitasEnfermerias.add(visitasEnfermeria);

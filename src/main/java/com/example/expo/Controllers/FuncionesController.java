@@ -82,8 +82,4 @@ public class FuncionesController {
         List<?> Observaciones = futureEspecialidades.join();
         return Observaciones;
     }
-
-
-
-
 }
