@@ -18,6 +18,7 @@ public class GradosController {
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new GradosDB().obtenerGradosAsync();
     }
+    @GetMapping("/Inin")
     public CompletableFuture<List<?>> obtenerGradosintAsync() {
         return new GradosDB().obtenerGradosintAsync();
     }
