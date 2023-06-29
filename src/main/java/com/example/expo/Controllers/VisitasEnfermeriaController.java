@@ -4,6 +4,7 @@ import com.example.expo.Models.Encargados;
 import com.example.expo.Models.ServiceResponse;
 import com.example.expo.Models.VisitasEnfermeria;
 import com.example.expo.Services.EncargadosDB;
+import com.example.expo.Services.FuncionesDB;
 import com.example.expo.Services.VisitasEnfermeriaDB;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class VisitasEnfermeriaController {
     @GetMapping("/list")
     public List<?> obtenerGrupos() {
         CompletableFuture<List<?>> futureEspecialidades = new VisitasEnfermeriaDB().obtenerVisitasEnfereriaAsync();
+        List<?> VisitasEnfermeria = futureEspecialidades.join();
+        return VisitasEnfermeria;
+    }
+
+    @GetMapping("/String/{idEstudiante}")
+    public List<?>obtenerVisitasEnfereriaStringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new VisitasEnfermeriaDB().obtenerVisitasEnfereriaStringPorEstudianteAsync(idEstudiante);
         List<?> VisitasEnfermeria = futureEspecialidades.join();
         return VisitasEnfermeria;
     }

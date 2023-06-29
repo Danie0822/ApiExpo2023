@@ -13,9 +13,14 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("Grados")
 public class GradosController {
+
     @GetMapping("/list")
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new GradosDB().obtenerGradosAsync();
+    }
+    @GetMapping("/Inint")
+    public CompletableFuture<List<?>> obtenerGradosintAsync() {
+        return new GradosDB().obtenerGradosintAsync();
     }
 
     @PostMapping("/save")
