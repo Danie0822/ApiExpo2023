@@ -48,7 +48,7 @@ public class TiposInasistenciasDB {
             }
         });
     }
-    //Agregar
+    //INSERT
     public static CompletableFuture<Integer> insertarTiposInasistenciasAsync(TiposInasistencias TipoInasistencias) {
         return CompletableFuture.supplyAsync(() -> {
             new TiposInasistenciasDB();
