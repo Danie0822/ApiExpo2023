@@ -36,9 +36,9 @@ public class TiposLlegadasTardeDB {
                 }
                 stnt.close();
                 return TiposLlegadasTarde;
-                }catch (Exception e) {
-                  e.printStackTrace();
-                  return Collections.emptyList();
+            }catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
             }
 
         }).whenComplete((TiposLlegadasTarde, throwable)-> {
@@ -85,35 +85,35 @@ public class TiposLlegadasTardeDB {
     }
 
     public static CompletableFuture<Integer> eliminarTiposLlegadasTardeAsync(int id) {
-       return CompletableFuture.supplyAsync(() -> {
-           new TiposLlegadasTardeDB();
-           PreparedStatement statement = null;
-           try {
-               statement = _cn.prepareStatement("exec DeleteTiposLlegadasTarde ?;");
-               statement.setInt(1, id);
+        return CompletableFuture.supplyAsync(() -> {
+            new TiposLlegadasTardeDB();
+            PreparedStatement statement = null;
+            try {
+                statement = _cn.prepareStatement("exec DeleteTiposLlegadasTarde ?;");
+                statement.setInt(1, id);
 
-               statement.executeUpdate();
-               return 1;
-           }catch (SQLException e) {
-               e.printStackTrace();
-               return 0;
-           }finally {
-               if (statement != null) {
-                   try {
-                       statement.close();
-                   } catch (SQLException e) {
-                       e.printStackTrace();
-                   }
-               }
-               try {
-                   if (_cn != null && !_cn.isClosed()) {
-                       _cn.close();
-                   }
-               } catch (SQLException e) {
-                   e.printStackTrace();
-               }
-           }
-       });
+                statement.executeUpdate();
+                return 1;
+            }catch (SQLException e) {
+                e.printStackTrace();
+                return 0;
+            }finally {
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -149,6 +149,5 @@ public class TiposLlegadasTardeDB {
         });
     }
 }
-
 
 

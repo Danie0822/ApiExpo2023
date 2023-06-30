@@ -1,6 +1,7 @@
 package com.example.expo.Services;
 
 import com.example.expo.Models.TiposInasistencias;
+import com.example.expo.Models.TiposLlegadasTarde;
 import com.example.expo.Models.TiposPermisos;
 
 import java.sql.*;
@@ -18,26 +19,27 @@ public class TiposInasistenciasDB {
         return CompletableFuture.supplyAsync(() -> {
             String query = "select * from tbTiposInasistencias;";
 
-            try (Statement stnt = _cn.createStatement()) {
-                List<TiposInasistencias> TiposInasistencias = new ArrayList<>();
+            try (Statement stnt = _cn.createStatement()){
+                List<TiposInasistencias> TiposLlegadasTarde = new ArrayList<>();
 
                 ResultSet result = stnt.executeQuery(query);
 
-                while (result.next()) {
-                    TiposInasistencias tiposInasistencias = new TiposInasistencias(
+                while (result.next()){
+                    TiposInasistencias tiposLlegadasTarde = new TiposInasistencias(
                             result.getInt("idTipoInasistencia"),
                             result.getString("tipoInasistencia")
                     );
 
-                    TiposInasistencias.add(tiposInasistencias);
+                    TiposLlegadasTarde.add(tiposLlegadasTarde);
                 }
                 stnt.close();
-                return TiposInasistencias;
-            } catch (Exception e) {
+                return TiposLlegadasTarde;
+            }catch (Exception e) {
                 e.printStackTrace();
                 return Collections.emptyList();
             }
-        }).whenComplete((TiposInasistencias, throwable) -> {
+
+        }).whenComplete((TiposLlegadasTarde, throwable)-> {
             try {
                 if (_cn != null && !_cn.isClosed()) {
 
@@ -48,14 +50,14 @@ public class TiposInasistenciasDB {
             }
         });
     }
-    //INSERT
-    public static CompletableFuture<Integer> insertarTiposInasistenciasAsync(TiposInasistencias TipoInasistencias) {
-        return CompletableFuture.supplyAsync(() -> {
+
+    public static CompletableFuture<Integer> insertarTiposInasistenciasAsync(TiposInasistencias TiposInasistencias) {
+        return CompletableFuture.supplyAsync(()-> {
             new TiposInasistenciasDB();
             PreparedStatement statement = null;
             try {
                 statement = _cn.prepareStatement("exec AgregarInasistenciasTipos ?;");
-                statement.setString(1, TipoInasistencias.getTipoInasistencias());
+                statement.setString(1, TiposInasistencias.getTipoInasistencias());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
