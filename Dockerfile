@@ -5,10 +5,11 @@ FROM adoptopenjdk/openjdk11:latest
 WORKDIR /app
 
 # Copia el archivo JAR generado por Spring Boot en la carpeta /app del contenedor
-COPY target/tu-aplicacion.jar app.jar
+COPY Expo.jar app.jar
 
 # Expone el puerto que utilizará tu API (asegúrate de que coincida con el puerto configurado en tu aplicación Spring Boot)
 EXPOSE 8080
 
 # Comando para ejecutar tu aplicación cuando el contenedor se inicie
 CMD ["java", "-jar", "app.jar"]
+
