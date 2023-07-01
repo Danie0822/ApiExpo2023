@@ -23,7 +23,6 @@ public class SalonesController {
     @GetMapping("/list")
     public CompletableFuture<Map<String, Object>> obtenerGrupos() {
         CompletableFuture<List<?>> salonesFuture = new SalonesDB().obtenerSalonesAsync();
-
         return salonesFuture.thenApply(salones -> {
             Map<String, Object> response = new HashMap<>();
             response.put("salones", salones);
