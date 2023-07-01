@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -19,9 +21,17 @@ import java.util.concurrent.CompletableFuture;
 public class SalonesController {
 
     @GetMapping("/list")
-    public CompletableFuture<List<?>> obtenerGrupos() {
-        return new  SalonesDB().obtenerSalonesAsync();
+    public CompletableFuture<Map<String, Object>> obtenerGrupos() {
+        CompletableFuture<List<?>> salonesFuture = new SalonesDB().obtenerSalonesAsync();
+
+        return salonesFuture.thenApply(salones -> {
+            Map<String, Object> response = new HashMap<>();
+            response.put("salones", salones);
+            return response;
+        });
     }
+
+
 
 
     @PostMapping("/save")
