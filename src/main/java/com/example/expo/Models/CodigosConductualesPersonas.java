@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CodigosConductualesPersonas {
     int idCodigoConductualPersona;
-    int idEstudiante ;
+    int idEstudiante;
     int idCodigoConductual;
     int idDocente;
     int idPeriodo;

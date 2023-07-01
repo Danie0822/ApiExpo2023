@@ -151,7 +151,7 @@ public class CodigosConductualesPersonasDB {
         return CompletableFuture.supplyAsync(() -> {
             new CodigosConductualesPersonasDB();
 
-            String sql = "exec  ?,?,?,?,?,?;";
+            String sql = "exec UpdateCODCPersonas ?,?,?,?,?,?;";
             PreparedStatement statement = null;
             try  {
                 statement = _cn.prepareStatement(sql);
