@@ -146,12 +146,12 @@ public class ObservacionesDB {
             PreparedStatement statement = null;
             try  {
                 statement = _cn.prepareStatement(sql);
-                statement.setInt(1, Observaciones.getIdEstudiante());
-                statement.setInt(2, Observaciones.getIdDocente());
-                statement.setInt(3, Observaciones.getIdPeriodo());
-                statement.setString(4, Observaciones.getFecha());
-                statement.setString(5, Observaciones.getDetalle());
-                statement.setInt(6,Observaciones.getIdObservacion());
+                statement.setInt(1, Observaciones.getIdObservacion());
+                statement.setInt(2, Observaciones.getIdEstudiante());
+                statement.setInt(3, Observaciones.getIdDocente());
+                statement.setInt(4, Observaciones.getIdPeriodo());
+                statement.setString(5, Observaciones.getFecha());
+                statement.setString(6,Observaciones.getDetalle());
 
                 statement.executeUpdate();
                 return 1;
