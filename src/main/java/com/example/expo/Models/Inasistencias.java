@@ -1,5 +1,8 @@
 package com.example.expo.Models;
 
+import lombok.Data;
+
+@Data
 public class Inasistencias {
 
     int idInasistencia;

@@ -60,11 +60,11 @@ public class LlegadasTardeDB {
             try {
                 statement = _cn.prepareStatement("exec AgregarLlegadasTarde ?, ? , ?, ?, ?, ?;");
                 statement.setString(1,LlegadasTarde.getTiposLlegadasTarde());
-                statement.setInt(2, LlegadasTarde.getidLlegadasTarde());
-                statement.setInt(3, LlegadasTarde.getidTipoLlegadaTarde());
-                statement.setInt(4, LlegadasTarde.getidPersona());
-                statement.setInt(5, LlegadasTarde.getidPeriodo());
-                statement.setInt(6, LlegadasTarde.getidDocente());
+                statement.setInt(2, LlegadasTarde.getIdLlegadaTarde());
+                statement.setInt(3, LlegadasTarde.getIdTipoLlegadaTarde());
+                statement.setInt(4, LlegadasTarde.getIdPersona());
+                statement.setInt(5, LlegadasTarde.getIdPeriodo());
+                statement.setInt(6, LlegadasTarde.getIdDocente());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
@@ -129,13 +129,12 @@ public class LlegadasTardeDB {
             new LlegadasTardeDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec UpdateLlegadasTarde ?, ?, ?, ?, ?, ?;");
+                statement = _cn.prepareStatement("exec UpdateLlegadasTarde ?, ?, ?, ?, ?;");
                 statement.setString(1,LlegadasTarde.getTiposLlegadasTarde());
-                statement.setInt(2, LlegadasTarde.getidLlegadasTarde());
-                statement.setInt(3, LlegadasTarde.getidTipoLlegadaTarde());
-                statement.setInt(4, LlegadasTarde.getidPersona());
-                statement.setInt(5, LlegadasTarde.getidPeriodo());
-                statement.setInt(6, LlegadasTarde.getidDocente());
+                statement.setInt(2, LlegadasTarde.getIdTipoLlegadaTarde());
+                statement.setInt(3, LlegadasTarde.getIdPersona());
+                statement.setInt(4, LlegadasTarde.getIdPeriodo());
+                statement.setInt(5, LlegadasTarde.getIdDocente());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {

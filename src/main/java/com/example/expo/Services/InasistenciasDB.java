@@ -124,11 +124,11 @@ public class InasistenciasDB {
                 statement = _cn.prepareStatement("exec UpdateInasistencias ?, ?, ?, ?, ?, ?, ?;");
                 statement.setString(1, Inasistencias.getEstado());
                 statement.setString(2, Inasistencias.getFecha());
-                statement.setInt(3, Inasistencias.getidInasistecia());
-                statement.setInt(4, Inasistencias.getidTipoInasistencia);
-                statement.setInt(5, Inasistencias.getidPersona);
-                statement.setInt(6, Inasistencias.getidDocente);
-                statement.setInt(7, Inasistencias.getidPeriodo);
+                statement.setInt(3, Inasistencias.getIdInasistencia());
+                statement.setInt(4, Inasistencias.getIdTipoInasistencia());
+                statement.setInt(5, Inasistencias.getIdPersona());
+                statement.setInt(6, Inasistencias.getIdDocente());
+                statement.setInt(7, Inasistencias.getIdPeriodo());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
