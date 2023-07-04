@@ -78,8 +78,15 @@ public class FuncionesController {
 
     @GetMapping("/Observaciones")
     public List<?>  Observaciones() {
-        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().obtenerObservacionesStringAsync();
+        CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().ObtenerObservaciones();
         List<?> Observaciones = futureEspecialidades.join();
         return Observaciones;
     }
+    @GetMapping("/Mensajes")
+    public List<?>  ObtenerMensajes() {
+        CompletableFuture<List<?>> MensajesFuture = new FuncionesDB().ObtenerMensajes();
+        List<?> Mensajes = MensajesFuture.join();
+        return Mensajes;
+    }
+
 }

@@ -544,4 +544,93 @@ public class FuncionesDB {
             }
         });
     }
+    public CompletableFuture<List<?>> ObtenerObservaciones() {
+        return CompletableFuture.supplyAsync(() -> {
+            List<ObservacionesString> ObservacionesString = new ArrayList<>();
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                ResultSet result = statement.executeQuery("SELECT * FROM ObservacionesString;");
+
+                while (result.next()) {
+                    ObservacionesString ObservacionesString2 = new ObservacionesString(
+                            result.getInt("idObservacion"),
+                            result.getString("Estudiante"),
+                            result.getString("Docente"),
+                            result.getInt("idPeriodo"),
+                            result.getString("fecha"),
+                            result.getString("detalle"),
+                            result.getInt("idEstudiante")
+                    );
+
+                    ObservacionesString.add(ObservacionesString2);
+                }
+
+                result.close();
+                return ObservacionesString;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((ObservacionesString, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<List<?>> ObtenerMensajes() {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Mensajes> Mensajes = new ArrayList<>();
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                ResultSet result = statement.executeQuery("SELECT * FROM tbMensajes;");
+
+                while (result.next()) {
+                    Mensajes Mensajes2 = new Mensajes(
+                            result.getString("messages")
+                    );
+
+                    Mensajes.add(Mensajes2);
+                }
+
+                result.close();
+                return Mensajes;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((Mensajes, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
