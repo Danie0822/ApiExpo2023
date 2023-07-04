@@ -16,7 +16,7 @@ public class CredencialesController {
 
     @GetMapping("/list")
     public List<?> obtenerListaCredenciales(){
-        CompletableFuture<List<?>> futurecredenciales = CredencialesDB.obtenerCredencialesAsync();
+        CompletableFuture<List<?>> futurecredenciales = new CredencialesDB().obtenerCredencialesAsync();
         List<?> credenciales = futurecredenciales.join();
         return credenciales;
     }

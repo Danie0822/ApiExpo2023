@@ -61,7 +61,8 @@ public class CredencialesDB {
 
     public static CompletableFuture<Integer> insertarCredencialesAsync(Credenciales credencial){
         return CompletableFuture.supplyAsync(() ->{
-            PreparedStatement stmt;
+            PreparedStatement stmt = null;
+            new CredencialesDB();
             try{
                 stmt = _cn.prepareStatement("exec AgregarCredenciales ?,?,?,?,?,?,?,?;");
                 stmt.setString(1,credencial.getCodigo());
@@ -79,12 +80,29 @@ public class CredencialesDB {
                 e.printStackTrace();
                 return 0;
             }
+            finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 
     public static CompletableFuture<Integer> actualizarCredencialesAsync(Credenciales credencial){
         return CompletableFuture.supplyAsync(() ->{
-            PreparedStatement stmt;
+            PreparedStatement stmt = null;
+            new CredencialesDB();
             try{
                 stmt = _cn.prepareStatement("exec ActualizarCredenciales ?,?,?,?,?,?,?,?,?;");
                 stmt.setInt(1, credencial.getIdPersona());
@@ -103,12 +121,29 @@ public class CredencialesDB {
                 e.printStackTrace();
                 return 0;
             }
+            finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 
     public static CompletableFuture<Integer> eliminarCredencialAsync(int id){
         return CompletableFuture.supplyAsync(() -> {
-            PreparedStatement stmt;
+            PreparedStatement stmt = null;
+            new CredencialesDB();
             try{
                 stmt = _cn.prepareStatement("exec DeleteCredencial ?;");
                 stmt.setInt(1,id);
@@ -118,6 +153,22 @@ public class CredencialesDB {
             catch (Exception e){
                 e.printStackTrace();
                 return 0;
+            }
+            finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
