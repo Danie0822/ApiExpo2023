@@ -20,7 +20,6 @@ public class NivelesCodigosConductualesController {
         List<?> NivelesCodigosConductuales = futureEspecialidades.join();
         return NivelesCodigosConductuales;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody NivelesCodigosConductuales NivelesCodigosConductuales){
         CompletableFuture<Integer> futureResult= NivelesCodigosConductualesDB.insertarNivelesCodigosConductualesAsync(NivelesCodigosConductuales);

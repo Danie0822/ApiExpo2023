@@ -30,9 +30,6 @@ public class SalonesController {
         });
     }
 
-
-
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Salones Salones) {
         return  SalonesDB.insertarSalonesAsync(Salones)

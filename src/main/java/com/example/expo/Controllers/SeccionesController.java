@@ -16,7 +16,6 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("Secciones")
 public class SeccionesController {
-
     @GetMapping("/list")
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new SeccionesDB().obtenerSeccionesAsync();

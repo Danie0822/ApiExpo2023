@@ -122,7 +122,6 @@ public class LlegadasTardeDB {
         });
 
 
-
     }
 
     public static CompletableFuture<Integer> ActualizarLlegadasTardeAsync(LlegadasTarde LlegadasTarde){

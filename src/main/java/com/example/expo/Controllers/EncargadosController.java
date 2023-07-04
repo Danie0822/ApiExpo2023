@@ -21,7 +21,6 @@ public class EncargadosController {
         List<?> Encargados = futureEspecialidades.join();
         return Encargados;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Encargados Encargados) {
         CompletableFuture<Integer> futureResult = EncargadosDB.insertarEncargadosAsync(Encargados);

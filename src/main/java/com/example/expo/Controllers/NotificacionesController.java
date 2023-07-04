@@ -21,7 +21,6 @@ public class NotificacionesController {
         List<?> Notificaciones = futureEspecialidades.join();
         return Notificaciones;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Notificaciones Notificaciones) {
         CompletableFuture<Integer> futureResult = NotificacionesDB.insertarNotificacionesAsync(Notificaciones);

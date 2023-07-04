@@ -29,7 +29,6 @@ public class GruposTecnicosController {
                     return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
                 });
     }
-
     @DeleteMapping("/delete/{id}")
     public CompletableFuture<ResponseEntity<ServiceResponse>> delete(@PathVariable int id) {
         return  GruposTecnicosDB.eliminarGruposTecnivosAsync(id)

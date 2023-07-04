@@ -31,7 +31,6 @@ public class NivelesAcademicosController {
                     return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
                 });
     }
-
     @DeleteMapping("/delete/{id}")
     public CompletableFuture<ResponseEntity<ServiceResponse>> delete(@PathVariable int id) {
         return NivelesAcademicosDB.eliminarNivelesAcademicosAsync(id)

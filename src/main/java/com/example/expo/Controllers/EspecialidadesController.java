@@ -19,7 +19,6 @@ public class EspecialidadesController {
         List<?> especialidades = futureEspecialidades.join();
         return especialidades;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Especialidades especialidad) {
         CompletableFuture<Integer> futureResult = EspecialidadesDB.insertarEspecialidadesAsync(especialidad);

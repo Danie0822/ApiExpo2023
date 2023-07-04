@@ -12,7 +12,6 @@ public class LlegadasTarde {
     int  estado;
     String Fecha;
 
-
     public LlegadasTarde(int idLlegadaTarde, int idTipoLlegadaTarde, int idPersona, int idPeriodo, int idDocente, int estado, String Fecha) {
         this.idLlegadaTarde = idLlegadaTarde;
         this.idTipoLlegadaTarde= idTipoLlegadaTarde;

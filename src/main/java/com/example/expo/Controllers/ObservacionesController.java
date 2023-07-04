@@ -22,7 +22,6 @@ public class ObservacionesController {
         List<?> Observaciones = futureEspecialidades.join();
         return Observaciones;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Observaciones Observaciones) {
         CompletableFuture<Integer> futureResult = ObservacionesDB.insertarObservacionesAsync(Observaciones);

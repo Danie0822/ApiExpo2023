@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Inasisitenciastring {
-
     int idInasistencia;
     String TipoLlegadaTarde;
     String Estudiante;

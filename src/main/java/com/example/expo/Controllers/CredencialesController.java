@@ -20,7 +20,6 @@ public class CredencialesController {
         List<?> credenciales = futurecredenciales.join();
         return credenciales;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Credenciales credenciales){
         CompletableFuture<Integer> futureRes = CredencialesDB.insertarCredencialesAsync(credenciales);

@@ -22,7 +22,6 @@ public class GradosController {
     public CompletableFuture<List<?>> obtenerGradosintAsync() {
         return new GradosDB().obtenerGradosintAsync();
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Grados Grados) {
         return GradosDB.insertarGradosAsync(Grados)

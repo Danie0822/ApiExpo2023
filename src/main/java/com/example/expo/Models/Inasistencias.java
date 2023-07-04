@@ -12,7 +12,6 @@ public class Inasistencias {
     int idPeriodo;
     int Estado;
     String Fecha;
-
     public Inasistencias(int idInasistencia, int idTipoInasistencia, int idPersona, int idDocente, int idPeriodo, int Estado, String Fecha){
         this.idInasistencia = idInasistencia;
         this.idTipoInasistencia = idTipoInasistencia;

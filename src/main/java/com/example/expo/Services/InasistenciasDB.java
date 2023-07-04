@@ -118,7 +118,6 @@ public class InasistenciasDB {
             }
         });
 
-
     }
 
     public static CompletableFuture<Integer> ActualizarInasistenciasAsync(Inasistencias Inasistencias){

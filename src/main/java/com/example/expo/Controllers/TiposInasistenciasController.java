@@ -54,7 +54,6 @@ public class TiposInasistenciasController {
             }
         });
     }
-
     @PutMapping("/update")
     public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody TiposInasistencias TiposInasistencias) {
         CompletableFuture<Integer> futureResult = TiposInasistenciasDB.ActulizarTiposInasistenciasAsync(TiposInasistencias);

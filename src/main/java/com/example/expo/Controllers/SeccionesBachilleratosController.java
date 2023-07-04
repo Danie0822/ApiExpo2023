@@ -22,7 +22,6 @@ public class SeccionesBachilleratosController {
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new SeccionesBachilleratoDB().obtenerSeccionesBachilleratoAsync();
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody SeccionesBachillerato SeccionesBachillerato) {
         return SeccionesBachilleratoDB.insertarSeccionesBachilleratoAsync(SeccionesBachillerato)

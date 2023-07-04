@@ -75,7 +75,6 @@ public class FuncionesController {
         List<?> Observaciones = futureEspecialidades.join();
         return Observaciones;
     }
-
     @GetMapping("/Observaciones")
     public List<?>  Observaciones() {
         CompletableFuture<List<?>> futureEspecialidades = new FuncionesDB().ObtenerObservaciones();

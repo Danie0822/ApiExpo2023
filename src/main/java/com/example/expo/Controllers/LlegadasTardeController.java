@@ -21,7 +21,6 @@ public class LlegadasTardeController {
         List<?> LlegadasTarde = futureEspecialidades.join();
         return LlegadasTarde;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody LlegadasTarde LlegadasTarde) {
         CompletableFuture<Integer> futureResult = LlegadasTardeDB.insertarLlegadasTardeAsync(LlegadasTarde);
