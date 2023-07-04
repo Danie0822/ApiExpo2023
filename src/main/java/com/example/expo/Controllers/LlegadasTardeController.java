@@ -1,8 +1,5 @@
 package com.example.expo.Controllers;
-import com.example.expo.Models.Grados;
-import com.example.expo.Models.GruposTecnicos;
-import com.example.expo.Models.ServiceResponse;
-import com.example.expo.Models.TiposLlegadasTarde;
+import com.example.expo.Models.*;
 import com.example.expo.Services.GradosDB;
 import com.example.expo.Services.GruposTecnicosDB;
 import com.example.expo.Services.LlegadasTardeDB;
