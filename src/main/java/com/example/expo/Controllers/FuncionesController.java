@@ -88,5 +88,4 @@ public class FuncionesController {
         List<?> Mensajes = MensajesFuture.join();
         return Mensajes;
     }
-
 }

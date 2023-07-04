@@ -591,7 +591,6 @@ public class FuncionesDB {
             }
         });
     }
-
     public CompletableFuture<List<?>> ObtenerMensajes() {
         return CompletableFuture.supplyAsync(() -> {
             List<Mensajes> Mensajes = new ArrayList<>();
