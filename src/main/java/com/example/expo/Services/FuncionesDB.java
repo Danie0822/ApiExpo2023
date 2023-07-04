@@ -10,10 +10,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.Base64;
+
 
 public class FuncionesDB {
     static Connection _cn;
+    public static byte[] base64ToBytes(String base64) {
+        return Base64.getDecoder().decode(base64);
+    }
 
+    public static String bytesToBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
     public FuncionesDB(){
         _cn = new Conexion().openDB();
     }
@@ -632,4 +640,60 @@ public class FuncionesDB {
             }
         });
     }
+
+    public CompletableFuture<List<?>> ObtenerCrede() {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Crede> mensajes = new ArrayList<>();
+            Statement statement = null;
+            ResultSet result = null;
+
+            try {
+                statement = _cn.createStatement();
+                result = statement.executeQuery("SELECT * FROM tbCredenciales");
+
+                while (result.next()) {
+                    String fotoBase64 = result.getString("foto");
+                    byte[] fotoBytes = Base64.getDecoder().decode(fotoBase64);
+
+                    Crede mensaje = new Crede(
+                            result.getInt("idPersona"),
+                            result.getString("codigo"),
+                            result.getString("nombrePersona"),
+                            result.getString("apellidoPersona"),
+                            result.getString("nacimientoPersona"),
+                            result.getInt("idTipoPersona"),
+                            result.getString("correo"),
+                            result.getString("claveCredeciales"),
+                            fotoBytes
+                    );
+                    mensajes.add(mensaje);
+                }
+
+                return mensajes;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (result != null) {
+                        result.close();
+                    }
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((mensajes, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 }

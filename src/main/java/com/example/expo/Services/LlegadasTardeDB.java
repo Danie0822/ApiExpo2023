@@ -27,10 +27,11 @@ public class LlegadasTardeDB {
                     LlegadasTarde LlegadasTarde2 = new LlegadasTarde(
                             result.getInt("idLlegadaTarde"),
                             result.getInt("idTipoLlegadaTarde"),
-                            result.getInt("idPersona"),
+                            result.getInt("idEstudiante"),
                             result.getInt("idPeriodo"),
                             result.getInt("idDocente"),
-                            result.getString("TiposLlegadasTarde")
+                            result.getInt("estado"),
+                            result.getString("Fecha")
                     );
 
                     LlegadasTarde.add(LlegadasTarde2);
@@ -59,12 +60,12 @@ public class LlegadasTardeDB {
             PreparedStatement statement = null;
             try {
                 statement = _cn.prepareStatement("exec AgregarLlegadasTarde ?, ? , ?, ?, ?, ?;");
-                statement.setString(1,LlegadasTarde.getTiposLlegadasTarde());
-                statement.setInt(2, LlegadasTarde.getidLlegadasTarde());
-                statement.setInt(3, LlegadasTarde.getidTipoLlegadaTarde());
-                statement.setInt(4, LlegadasTarde.getidPersona());
-                statement.setInt(5, LlegadasTarde.getidPeriodo());
-                statement.setInt(6, LlegadasTarde.getidDocente());
+                statement.setInt(1,LlegadasTarde.getIdTipoLlegadaTarde());
+                statement.setInt(2, LlegadasTarde.getIdEstudiante());
+                statement.setInt(3, LlegadasTarde.getIdPeriodo());
+                statement.setInt(4, LlegadasTarde.getIdDocente());
+                statement.setInt(5, LlegadasTarde.getEstado());
+                statement.setString(6, LlegadasTarde.getFecha());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
@@ -129,13 +130,14 @@ public class LlegadasTardeDB {
             new LlegadasTardeDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec UpdateLlegadasTarde ?, ?, ?, ?, ?, ?;");
-                statement.setString(1,LlegadasTarde.getTiposLlegadasTarde());
-                statement.setInt(2, LlegadasTarde.getidLlegadasTarde());
-                statement.setInt(3, LlegadasTarde.getidTipoLlegadaTarde());
-                statement.setInt(4, LlegadasTarde.getidPersona());
-                statement.setInt(5, LlegadasTarde.getidPeriodo());
-                statement.setInt(6, LlegadasTarde.getidDocente());
+                statement = _cn.prepareStatement("exec UpdateLlegadasTarde ?, ?, ?, ?, ?, ?, ?;");
+                statement.setInt(1,LlegadasTarde.getIdTipoLlegadaTarde());
+                statement.setInt(2, LlegadasTarde.getIdEstudiante());
+                statement.setInt(3, LlegadasTarde.getIdPeriodo());
+                statement.setInt(4, LlegadasTarde.getIdDocente());
+                statement.setInt(5, LlegadasTarde.getEstado());
+                statement.setString(6, LlegadasTarde.getFecha());
+                statement.setInt(7, LlegadasTarde.getIdLlegadaTarde());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {

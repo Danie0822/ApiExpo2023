@@ -1,21 +1,26 @@
 package com.example.expo.Models;
 
+import lombok.Data;
+
+@Data
 public class LlegadasTarde {
     int idLlegadaTarde;
     int idTipoLlegadaTarde;
-    int idPersona;
+    int idEstudiante;
     int idPeriodo;
     int idDocente;
-    String TiposLlegadasTarde;
+    int  estado;
+    String Fecha;
 
 
-    public LlegadasTarde(int idLlegadaTarde, int idTipoLlegadaTarde, int idPersona, int idPeriodo, int idDocente, String TiposLlegadasTarde) {
+    public LlegadasTarde(int idLlegadaTarde, int idTipoLlegadaTarde, int idPersona, int idPeriodo, int idDocente, int estado, String Fecha) {
         this.idLlegadaTarde = idLlegadaTarde;
         this.idTipoLlegadaTarde= idTipoLlegadaTarde;
-        this.idPersona = idPersona;
+        this.idEstudiante = idPersona;
         this.idPeriodo = idPeriodo;
         this.idDocente = idDocente;
-        this.TiposLlegadasTarde = TiposLlegadasTarde;
+        this.estado = estado;
+        this.Fecha = Fecha;
     }
 
 

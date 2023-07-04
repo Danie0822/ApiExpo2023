@@ -1,9 +1,10 @@
 package com.example.expo.Controllers;
-import com.example.expo.Models.*;
-import com.example.expo.Services.GradosDB;
-import com.example.expo.Services.GruposTecnicosDB;
+
+import com.example.expo.Models.Inasistencias;
+import com.example.expo.Models.LlegadasTarde;
+import com.example.expo.Models.ServiceResponse;
+import com.example.expo.Services.InasistenciasDB;
 import com.example.expo.Services.LlegadasTardeDB;
-import com.example.expo.Services.TiposLlegadasTardeDB;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,19 +13,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("LlegadasTarde")
-public class LlegadasTardeController {
-
+@RequestMapping("Inasistencias")
+public class InasistenciasController {
     @GetMapping("/list")
     public List<?> obtenerGrupos() {
-        CompletableFuture<List<?>> futureEspecialidades = new LlegadasTardeDB().obtenerLlegadasTardeAsync();
+        CompletableFuture<List<?>> futureEspecialidades = new InasistenciasDB().obtenerInasistenciasAsync();
         List<?> LlegadasTarde = futureEspecialidades.join();
         return LlegadasTarde;
     }
 
     @PostMapping("/save")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody LlegadasTarde LlegadasTarde) {
-        CompletableFuture<Integer> futureResult = LlegadasTardeDB.insertarLlegadasTardeAsync(LlegadasTarde);
+    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Inasistencias Inasistencias) {
+        CompletableFuture<Integer> futureResult = InasistenciasDB.insertarInasistencias(Inasistencias);
 
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();
@@ -40,7 +40,7 @@ public class LlegadasTardeController {
     }
     @DeleteMapping("/delete/{id}")
     public CompletableFuture<ResponseEntity<ServiceResponse>> update(@PathVariable int id) {
-        CompletableFuture<Integer> futureResult = LlegadasTardeDB.eliminarLlegadasTardeAsync(id);
+        CompletableFuture<Integer> futureResult = InasistenciasDB.eliminarInasistenciasAsync(id);
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();
 
@@ -55,8 +55,8 @@ public class LlegadasTardeController {
     }
 
     @PutMapping("/update")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody LlegadasTarde LlegadasTarde) {
-        CompletableFuture<Integer> futureResult = LlegadasTardeDB.ActualizarLlegadasTardeAsync(LlegadasTarde);
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Inasistencias Inasistencias) {
+        CompletableFuture<Integer> futureResult = InasistenciasDB.ActualizarInasistenciasAsync(Inasistencias);
 
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();

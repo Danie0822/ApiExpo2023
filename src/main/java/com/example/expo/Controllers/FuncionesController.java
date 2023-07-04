@@ -88,4 +88,11 @@ public class FuncionesController {
         List<?> Mensajes = MensajesFuture.join();
         return Mensajes;
     }
+    @GetMapping("/Crede")
+    public List<?>  ObtenerCrede() {
+        CompletableFuture<List<?>> CredeFuture = new FuncionesDB().ObtenerCrede();
+        List<?> Crede = CredeFuture.join();
+        return Crede;
+    }
+
 }

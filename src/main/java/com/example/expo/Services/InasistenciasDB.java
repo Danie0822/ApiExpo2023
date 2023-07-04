@@ -26,11 +26,11 @@ public class InasistenciasDB {
                     Inasistencias Inasistenicas = new Inasistencias(
                             result.getInt("idInasistencia"),
                             result.getInt("idTipoInasistencia"),
-                            result.getInt("idPersona"),
+                            result.getInt("idEstudiante"),
                             result.getInt("idDocente"),
                             result.getInt("idPeriodo"),
-                            result.getString("Estado"),
-                            result.getString("Fecha")
+                            result.getInt("estado"),
+                            result.getString("fecha")
                     );
 
                     Inasistencias.add(Inasistenicas);
@@ -58,8 +58,13 @@ public class InasistenciasDB {
             new InasistenciasDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec AgregarInasistencias ?;");
-                statement.setString(1, Inasistencias.getInasistencias());
+                statement = _cn.prepareStatement("exec AgregarInasisitencias ?, ?, ? , ?, ?, ? ;");
+                statement.setInt(1, Inasistencias.getIdTipoInasistencia());
+                statement.setInt(2, Inasistencias.getIdEstudiante());
+                statement.setInt(3, Inasistencias.getIdPeriodo());
+                statement.setInt(4, Inasistencias.getIdDocente());
+                statement.setInt(5, Inasistencias.getEstado());
+                statement.setString(6, Inasistencias.getFecha());
                 statement.executeUpdate();
                 return 1;} catch (SQLException e) {
                 e.printStackTrace();
@@ -121,14 +126,14 @@ public class InasistenciasDB {
             new InasistenciasDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec UpdateInasistencias ?, ?, ?, ?, ?, ?, ?;");
-                statement.setString(1, Inasistencias.getEstado());
-                statement.setString(2, Inasistencias.getFecha());
-                statement.setInt(3, Inasistencias.getidInasistecia());
-                statement.setInt(4, Inasistencias.getidTipoInasistencia);
-                statement.setInt(5, Inasistencias.getidPersona);
-                statement.setInt(6, Inasistencias.getidDocente);
-                statement.setInt(7, Inasistencias.getidPeriodo);
+                statement = _cn.prepareStatement("exec UpdateInasisitencias ?, ?, ?, ?, ?, ?,?;");
+                statement.setInt(1, Inasistencias.getIdTipoInasistencia());
+                statement.setInt(2, Inasistencias.getIdEstudiante());
+                statement.setInt(3, Inasistencias.getIdPeriodo());
+                statement.setInt(4, Inasistencias.getIdDocente());
+                statement.setInt(5, Inasistencias.getEstado());
+                statement.setString(6, Inasistencias.getFecha());
+                statement.setInt(7, Inasistencias.getIdInasistencia());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
