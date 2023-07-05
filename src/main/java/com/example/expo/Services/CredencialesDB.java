@@ -16,7 +16,7 @@ public class CredencialesDB {
 
     public static CompletableFuture<List<?>> obtenerCredencialesAsync(){
         return CompletableFuture.supplyAsync(() -> {
-            String query = "select * from vistaCredenciales;";
+            String query = "select * from tbCredenciales;";
 
             try(Statement stmt = _cn.createStatement()){
                 List<Credenciales> credenciales = new ArrayList<>();
@@ -29,7 +29,7 @@ public class CredencialesDB {
                             res.getString("codigo"),
                             res.getString("nombrePersona"),
                             res.getString("apellidoPersona"),
-                            res.getDate("nacimientoPersona"),
+                            res.getString("nacimientoPersona"),
                             res.getInt("idTipoPersona"),
                             res.getString("correo"),
                             res.getString("claveCredenciales"),
@@ -68,7 +68,7 @@ public class CredencialesDB {
                 stmt.setString(1,credencial.getCodigo());
                 stmt.setString(2,credencial.getNombrePersona());
                 stmt.setString(3, credencial.getApellidoPersona());
-                stmt.setDate(4, (Date) credencial.getNacimientoPersona());
+                stmt.setString(4,  credencial.getNacimientoPersona());
                 stmt.setInt(5, credencial.getIdTipoPersona());
                 stmt.setString(6, credencial.getCorreo());
                 stmt.setString(7, credencial.getClaveCredenciales());
@@ -109,7 +109,7 @@ public class CredencialesDB {
                 stmt.setString(2,credencial.getCodigo());
                 stmt.setString(3,credencial.getNombrePersona());
                 stmt.setString(4, credencial.getApellidoPersona());
-                stmt.setDate(5, (Date) credencial.getNacimientoPersona());
+                stmt.setString(5, credencial.getNacimientoPersona());
                 stmt.setInt(6, credencial.getIdTipoPersona());
                 stmt.setString(7, credencial.getCorreo());
                 stmt.setString(8, credencial.getClaveCredenciales());

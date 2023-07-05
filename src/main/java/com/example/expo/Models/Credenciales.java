@@ -10,13 +10,13 @@ public class Credenciales {
     String codigo;
     String nombrePersona;
     String apellidoPersona;
-    Date nacimientoPersona;
+    String nacimientoPersona;
     int idTipoPersona;
     String correo;
     String claveCredenciales;
     byte[] foto;
 
-    public Credenciales (int idPersona, String codigo,String nombrePersona, String apellidoPersona, Date nacimientoPersona,
+    public Credenciales (int idPersona, String codigo,String nombrePersona, String apellidoPersona, String nacimientoPersona,
                          int idTipoPersona, String correo,String claveCredenciales,byte[] foto){
         this.idPersona = idPersona;
         this.codigo = codigo;
