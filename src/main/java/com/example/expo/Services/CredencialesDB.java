@@ -1,6 +1,7 @@
 package com.example.expo.Services;
 
 import com.example.expo.Models.Credenciales;
+import com.example.expo.Models.ObservacionesString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -54,6 +55,55 @@ public class CredencialesDB {
                 }
             }
             catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+    public CompletableFuture<List<?>> obtenerCredencialesEstudianteAsync(int IdPersona) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Credenciales> Credenciales = new ArrayList<>();
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                String query = "select * from tbCredenciales where idPersona = " + IdPersona;
+                ResultSet res =statement.executeQuery(query);
+
+                while(res.next()){
+                    Credenciales ncredencial =new Credenciales(
+                            res.getInt("idPersona"),
+                            res.getString("codigo"),
+                            res.getString("nombrePersona"),
+                            res.getString("apellidoPersona"),
+                            res.getString("nacimientoPersona"),
+                            res.getInt("idTipoPersona"),
+                            res.getString("correo"),
+                            res.getString("claveCredenciales"),
+                            res.getBytes("foto")
+                    );
+                    Credenciales.add(ncredencial);
+                }
+
+                res.close();
+                return Credenciales;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((Credenciales, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });

@@ -3,6 +3,7 @@ package com.example.expo.Controllers;
 import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.ServiceResponse;
 import com.example.expo.Services.CredencialesDB;
+import com.example.expo.Services.FuncionesDB;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,13 @@ public class CredencialesController {
         CompletableFuture<List<?>> futurecredenciales = new CredencialesDB().obtenerCredencialesAsync();
         List<?> credenciales = futurecredenciales.join();
         return credenciales;
+    }
+
+    @GetMapping("/list/{idEstudiante}")
+    public List<?>obtenerObservacionesStringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new CredencialesDB().obtenerCredencialesEstudianteAsync(idEstudiante);
+        List<?> Observaciones = futureEspecialidades.join();
+        return Observaciones;
     }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Credenciales credenciales){
