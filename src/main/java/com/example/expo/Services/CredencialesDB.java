@@ -34,7 +34,7 @@ public class CredencialesDB {
                             res.getInt("idTipoPersona"),
                             res.getString("correo"),
                             res.getString("claveCredenciales"),
-                            res.getString("foto")
+                            res.getBytes("foto")
                     );
                     credenciales.add(ncredencial);
                 }
@@ -79,7 +79,7 @@ public class CredencialesDB {
                             res.getInt("idTipoPersona"),
                             res.getString("correo"),
                             res.getString("claveCredenciales"),
-                            res.getString("foto")
+                            res.getBytes("foto")
                     );
                     Credenciales.add(ncredencial);
                 }
@@ -122,7 +122,7 @@ public class CredencialesDB {
                 stmt.setInt(5, credencial.getIdTipoPersona());
                 stmt.setString(6, credencial.getCorreo());
                 stmt.setString(7, credencial.getClaveCredenciales());
-                stmt.setString(8, credencial.getFoto());
+                stmt.setBytes(8, credencial.getFoto());
                 stmt.executeUpdate();
                 return 1;
             }
@@ -163,7 +163,7 @@ public class CredencialesDB {
                 stmt.setInt(6, credencial.getIdTipoPersona());
                 stmt.setString(7, credencial.getCorreo());
                 stmt.setString(8, credencial.getClaveCredenciales());
-                stmt.setString(9, credencial.getFoto());
+                stmt.setBytes(8, credencial.getFoto());
                 stmt.executeUpdate();
                 return 1;
             }

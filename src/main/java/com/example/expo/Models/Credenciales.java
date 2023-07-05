@@ -14,10 +14,10 @@ public class Credenciales {
     int idTipoPersona;
     String correo;
     String claveCredenciales;
-    String foto;
+    byte[] foto;
 
     public Credenciales (int idPersona, String codigo,String nombrePersona, String apellidoPersona, String nacimientoPersona,
-                         int idTipoPersona, String correo,String claveCredenciales,String foto){
+                         int idTipoPersona, String correo,String claveCredenciales,byte[] foto){
         this.idPersona = idPersona;
         this.codigo = codigo;
         this.nombrePersona = nombrePersona;
