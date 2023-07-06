@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("Credenciales")
@@ -21,7 +22,26 @@ public class CredencialesController {
         List<?> credenciales = futurecredenciales.join();
         return credenciales;
     }
+    @GetMapping("/user")
+    public ResponseEntity<?> obtenerUsuario(@RequestParam("correo") String correo, @RequestParam("claveCredenciales") String claveCredenciales) {
+        CompletableFuture<List<?>> futureCredenciales = new CredencialesDB().obtenerCredencialesAsync(correo, claveCredenciales);
 
+        try {
+            List<?> credenciales = futureCredenciales.get();
+
+            if (!credenciales.isEmpty()) {
+                // Se encontraron coincidencias, se devuelve el primer resultado
+                Object usuario = credenciales.get(0);
+                return ResponseEntity.ok(usuario);
+            } else {
+                // No se encontraron coincidencias
+                return ResponseEntity.notFound().build();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     @GetMapping("/list/{idEstudiante}")
     public List<?>obtenerObservacionesStringPorEstudianteAsync(@PathVariable int idEstudiante) {
         CompletableFuture<List<?>> futureEspecialidades = new CredencialesDB().obtenerCredencialesEstudianteAsync(idEstudiante);
