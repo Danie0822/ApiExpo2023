@@ -2,6 +2,7 @@ package com.example.expo.Services;
 
 import com.example.expo.Models.Encargados;
 import com.example.expo.Models.Notificaciones;
+import com.example.expo.Models.ObservacionesString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,6 +24,51 @@ public class NotificacionesDB {
             try {
                 statement = _cn.createStatement();
                 ResultSet result = statement.executeQuery("SELECT * FROM tbNotificaciones;");
+
+                while (result.next()) {
+                    Notificaciones notificaciones = new Notificaciones(
+                            result.getInt("idNotificacion"),
+                            result.getString("detalle"),
+                            result.getInt("idTipoNotificacion"),
+                            result.getInt("idPersona")
+                    );
+
+                    Notificaciones.add(notificaciones);
+                }
+
+                result.close();
+                return Notificaciones;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((Notificaciones, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    public CompletableFuture<List<?>> obtenerNotificacionesStringPorEstudianteAsync(int idEstudiante) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Notificaciones> Notificaciones = new ArrayList<>();
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                String query = "SELECT * FROM tbNotificaciones WHERE idPersona = " + idEstudiante;
+                ResultSet result = statement.executeQuery(query);
 
                 while (result.next()) {
                     Notificaciones notificaciones = new Notificaciones(

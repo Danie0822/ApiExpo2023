@@ -21,6 +21,12 @@ public class NotificacionesController {
         List<?> Notificaciones = futureEspecialidades.join();
         return Notificaciones;
     }
+    @GetMapping("/list/{idEstudiante}")
+    public List<?>obtenerObservacionesStringPorEstudianteAsync(@PathVariable int idEstudiante) {
+        CompletableFuture<List<?>> futureEspecialidades = new NotificacionesDB().obtenerNotificacionesStringPorEstudianteAsync(idEstudiante);
+        List<?> Observaciones = futureEspecialidades.join();
+        return Observaciones;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Notificaciones Notificaciones) {
         CompletableFuture<Integer> futureResult = NotificacionesDB.insertarNotificacionesAsync(Notificaciones);
