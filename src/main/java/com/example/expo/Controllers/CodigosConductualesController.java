@@ -21,6 +21,12 @@ public class CodigosConductualesController {
         List<?> CodigosConductuales = futureEspecialidades.join();
         return CodigosConductuales;
     }
+    @GetMapping("/String")
+    public List<?> obtener(){
+        CompletableFuture<List<?>> futureEspecialidades= new CodigosConductualesDB().obtenerCodigosConductualesStringAsync();
+        List<?> CodigosConductuales = futureEspecialidades.join();
+        return CodigosConductuales;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody CodigosConductuales CodigosConductuales){
         CompletableFuture<Integer> futureResult= CodigosConductualesDB.insertarCodigosConductualesAsync(CodigosConductuales);

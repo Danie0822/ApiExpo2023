@@ -1,6 +1,7 @@
 package com.example.expo.Services;
 
 import com.example.expo.Models.CodigosConductuales;
+import com.example.expo.Models.CodigosConductualestring;
 import com.example.expo.Models.NivelesCodigosConductuales;
 
 import java.sql.*;
@@ -27,6 +28,46 @@ public class CodigosConductualesDB {
                             result.getInt("idCodigoConductual"),
                             result.getInt("idTipoCodigoConductual"),
                             result.getInt("idNivelCodigoConductual"),
+                            result.getString("codigoConductual")
+                    );
+                    CodigosConductuales.add(codigosConductuales);
+                }
+                result.close();
+                return CodigosConductuales;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement!=null){
+                        statement.close();
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((CodigosConductuales, throwable) -> {
+            try {
+                if (_cn !=null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
+    public CompletableFuture<List<?>> obtenerCodigosConductualesStringAsync(){
+        return CompletableFuture.supplyAsync(()->{
+            List<CodigosConductualestring> CodigosConductuales = new ArrayList<>();
+            Statement statement = null;
+            try {
+                statement = _cn.createStatement();
+                ResultSet result = statement.executeQuery("SELECT * FROM tbCodigosConductualestring;");
+
+                while (result.next()){
+                    CodigosConductualestring codigosConductuales = new CodigosConductualestring(
+                            result.getInt("idCodigoConductual"),
+                            result.getString("nivelCodigoConductual"),
                             result.getString("codigoConductual")
                     );
                     CodigosConductuales.add(codigosConductuales);
