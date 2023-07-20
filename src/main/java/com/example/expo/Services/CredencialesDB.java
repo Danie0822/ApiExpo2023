@@ -102,6 +102,48 @@ public class CredencialesDB {
             }
         });
     }
+
+    public CompletableFuture<List<?>> buscarCredencialesEstudianteAsync(String filter){
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "SELECT * FROM tbCredenciales WHERE CONTAINS(nombrePersona+apellidoPersona, ?) OR CONTARINS(codigo, ?)";
+
+            try (PreparedStatement stmt = _cn.prepareStatement(query)) {
+                stmt.setString(1, filter);
+
+                List<Credenciales> credenciales = new ArrayList<>();
+
+                ResultSet res = stmt.executeQuery();
+
+                while (res.next()) {
+                    Credenciales ncredencial = new Credenciales(
+                            res.getInt("idPersona"),
+                            res.getString("codigo"),
+                            res.getString("nombrePersona"),
+                            res.getString("apellidoPersona"),
+                            res.getString("nacimientoPersona"),
+                            res.getInt("idTipoPersona"),
+                            res.getString("correo"),
+                            res.getString("claveCredenciales"),
+                            res.getBytes("foto")
+                    );
+                    credenciales.add(ncredencial);
+                }
+
+                return credenciales;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((result, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
     public CompletableFuture<List<?>> obtenerCredencialesEstudianteAsync(int IdPersona) {
         return CompletableFuture.supplyAsync(() -> {
             List<Credenciales> Credenciales = new ArrayList<>();

@@ -48,6 +48,13 @@ public class CredencialesController {
         List<?> Observaciones = futureEspecialidades.join();
         return Observaciones;
     }
+
+    @GetMapping("/search/{filter}")
+    public List<?> buscarCredencialesAsync(@PathVariable String filter){
+        CompletableFuture<List<?>> futureResult = new CredencialesDB().buscarCredencialesEstudianteAsync(filter);
+        List<?> Credenciales = futureResult.join();
+        return Credenciales;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Credenciales credenciales){
         CompletableFuture<Integer> futureRes = CredencialesDB.insertarCredencialesAsync(credenciales);

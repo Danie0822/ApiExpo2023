@@ -97,6 +97,47 @@ public class CodigosConductualesDB {
         });
     }
 
+    public CompletableFuture<List<?>> BuscarCodigoConductualesAsync(String filter){
+        return CompletableFuture.supplyAsync(()->{
+            List<CodigosConductualestring> CodigosConductuales = new ArrayList<>();
+            PreparedStatement stmt = null;
+            try {
+                stmt = _cn.prepareStatement("SELECT * FROM tbCodigosConductualestring WHERE CONTAINS(codigoConductual,?);");
+                stmt.setString(1,filter);
+                ResultSet result = stmt.executeQuery();
+                while (result.next()){
+                    CodigosConductualestring codigosConductuales = new CodigosConductualestring(
+                            result.getInt("idCodigoConductual"),
+                            result.getString("nivelCodigoConductual"),
+                            result.getString("codigoConductual")
+                    );
+                    CodigosConductuales.add(codigosConductuales);
+                }
+                result.close();
+                return CodigosConductuales;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (stmt!=null){
+                        stmt.close();
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((CodigosConductuales, throwable) -> {
+            try {
+                if (_cn !=null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static CompletableFuture<Integer> insertarCodigosConductualesAsync(CodigosConductuales CodigosConductuales){
         return CompletableFuture.supplyAsync(()-> {
             new CodigosConductualesDB();
