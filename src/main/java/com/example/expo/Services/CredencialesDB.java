@@ -106,7 +106,7 @@ public class CredencialesDB {
     public CompletableFuture<List<?>> buscarCredencialesEstudianteAsync(String filter){
         return CompletableFuture.supplyAsync(() -> {
             String realFilter = "%"+filter+"%";
-            String query = "SELECT * FROM tbCredenciales WHERE nombrePersona+apellidoPersona like ? OR codigo like ?";
+            String query = "SELECT * FROM tbCredenciales WHERE ((nombrePersona+' '+apellidoPersona) like ? OR codigo like ?) AND idTipoPersona = 2;";
 
             try (PreparedStatement stmt = _cn.prepareStatement(query)) {
                 stmt.setString(1, realFilter);
