@@ -102,8 +102,9 @@ public class CodigosConductualesDB {
             List<CodigosConductualestring> CodigosConductuales = new ArrayList<>();
             PreparedStatement stmt = null;
             try {
-                stmt = _cn.prepareStatement("SELECT * FROM tbCodigosConductualestring WHERE CONTAINS(codigoConductual,?);");
-                stmt.setString(1,filter);
+                String realFilter = "%"+filter+"%";
+                    stmt = _cn.prepareStatement("SELECT * FROM tbCodigosConductualestring WHERE codigoConductual like ?;");
+                stmt.setString(1,realFilter);
                 ResultSet result = stmt.executeQuery();
                 while (result.next()){
                     CodigosConductualestring codigosConductuales = new CodigosConductualestring(
