@@ -105,10 +105,12 @@ public class CredencialesDB {
 
     public CompletableFuture<List<?>> buscarCredencialesEstudianteAsync(String filter){
         return CompletableFuture.supplyAsync(() -> {
-            String query = "SELECT * FROM tbCredenciales WHERE CONTAINS(nombrePersona+apellidoPersona, ?) OR CONTARINS(codigo, ?)";
+            String realFilter = "%"+filter+"%";
+            String query = "SELECT * FROM tbCredenciales WHERE nombrePersona+apellidoPersona like ? OR codigo like ?";
 
             try (PreparedStatement stmt = _cn.prepareStatement(query)) {
-                stmt.setString(1, filter);
+                stmt.setString(1, realFilter);
+                stmt.setString(2,realFilter);
 
                 List<Credenciales> credenciales = new ArrayList<>();
 
