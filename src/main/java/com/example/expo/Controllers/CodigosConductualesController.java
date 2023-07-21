@@ -5,6 +5,7 @@ import com.example.expo.Models.CodigosConductuales;
 import com.example.expo.Models.NivelesCodigosConductuales;
 import com.example.expo.Models.ServiceResponse;
 import com.example.expo.Services.CodigosConductualesDB;
+import com.example.expo.Services.FuncionesDB;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,10 @@ public class CodigosConductualesController {
         return CodigosConductuales;
     }
 
-    @GetMapping("/Search/{param}")
-    public List<?> Search(@PathVariable String filter){
-        CompletableFuture<List<?>> futureResult = new CodigosConductualesDB().BuscarCodigoConductualesAsync(filter);
+
+    @GetMapping("/Search/{idEstudiante}")
+    public List<?> obtenerCodigosConductualesStringPorEstudianteAsync(@PathVariable String idEstudiante) {
+        CompletableFuture<List<?>> futureResult = new CodigosConductualesDB().BuscarCodigoConductualesAsync(idEstudiante);
         List<?> CodigosConductuales = futureResult.join();
         return CodigosConductuales;
     }

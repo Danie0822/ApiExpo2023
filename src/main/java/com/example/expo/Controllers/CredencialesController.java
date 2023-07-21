@@ -2,6 +2,7 @@ package com.example.expo.Controllers;
 
 import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.ServiceResponse;
+import com.example.expo.Services.CodigosConductualesDB;
 import com.example.expo.Services.CredencialesDB;
 import com.example.expo.Services.FuncionesDB;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,9 @@ public class CredencialesController {
         return Observaciones;
     }
 
-    @GetMapping("/search/{filter}")
-    public List<?> buscarCredencialesAsync(@PathVariable String filter){
-        CompletableFuture<List<?>> futureResult = new CredencialesDB().buscarCredencialesEstudianteAsync(filter);
+    @GetMapping("/Search/{idEstudiante}")
+    public List<?> obtenerCodigosConductualesStringPorEstudianteAsync(@PathVariable String idEstudiante) {
+        CompletableFuture<List<?>> futureResult = new CredencialesDB().buscarCredencialesEstudianteAsync(idEstudiante);
         List<?> Credenciales = futureResult.join();
         return Credenciales;
     }
