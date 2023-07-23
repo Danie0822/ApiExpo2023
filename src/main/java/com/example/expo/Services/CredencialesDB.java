@@ -103,7 +103,7 @@ public class CredencialesDB {
         });
     }
 
-    public CompletableFuture<Integer> validarCredencialesNoEstudianteAsync(String codigo){
+    public static CompletableFuture<Integer> validarCredencialesNoEstudianteAsync(String codigo){
         return CompletableFuture.supplyAsync(() -> {
             String query = "SELECT * FROM TbCredenciales where codigo = ? AND idTipoEstudiante <> 2";
             try(PreparedStatement stmt = _cn.prepareStatement(query)){

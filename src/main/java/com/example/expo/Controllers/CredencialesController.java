@@ -73,6 +73,22 @@ public class CredencialesController {
         });
     }
 
+    @PutMapping("/validate/{codigo}")
+    public CompletableFuture<ResponseEntity<ServiceResponse>> validateCodigo(@PathVariable String codigo){
+        CompletableFuture<Integer> futureRes = CredencialesDB.validarCredencialesNoEstudianteAsync(codigo);
+        return futureRes.thenApply(result -> {
+            ServiceResponse serviceResponse = new ServiceResponse();
+            if(result == 1){
+                serviceResponse.setMessage("Codigo Validated");
+                return ResponseEntity.ok(serviceResponse);
+            }
+            else{
+                serviceResponse.setMessage("Invalidate codigo");
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(serviceResponse);
+            }
+        });
+    }
+
     @DeleteMapping("/delete/{id}")
     public CompletableFuture<ResponseEntity<ServiceResponse>> delete(@PathVariable int id){
         CompletableFuture<Integer> futureRes = CredencialesDB.eliminarCredencialAsync(id);
