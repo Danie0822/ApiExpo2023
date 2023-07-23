@@ -2,6 +2,7 @@ package com.example.expo.Controllers;
 
 import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.ServiceResponse;
+import com.example.expo.Services.CodigosConductualesDB;
 import com.example.expo.Services.CredencialesDB;
 import com.example.expo.Services.FuncionesDB;
 import org.springframework.http.HttpStatus;
@@ -49,11 +50,9 @@ public class CredencialesController {
         return Observaciones;
     }
 
-
-
-    @GetMapping("/search/{filter}")
-    public List<?> buscarCredencialesAsync(@PathVariable String filter){
-        CompletableFuture<List<?>> futureResult = new CredencialesDB().buscarCredencialesEstudianteAsync(filter);
+    @GetMapping("/Search/{idEstudiante}")
+    public List<?> obtenerCodigosConductualesStringPorEstudianteAsync(@PathVariable String idEstudiante) {
+        CompletableFuture<List<?>> futureResult = new CredencialesDB().buscarCredencialesEstudianteAsync(idEstudiante);
         List<?> Credenciales = futureResult.join();
         return Credenciales;
     }
@@ -71,22 +70,6 @@ public class CredencialesController {
                 serviceResponse.setMessage("Failed to save item");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(serviceResponse);
             }
-        });
-    }
-
-    @GetMapping("/validate/{codigo}")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> validateCodigo(@PathVariable String codigo){
-        CompletableFuture<Integer> futureResult = new CredencialesDB().validarCredencialesNoEstudianteAsync(codigo);
-        return futureResult.thenApply(result -> {
-           ServiceResponse serviceResponse = new ServiceResponse();
-           if(result == 1){
-               serviceResponse.setMessage("Codigo validated");
-               return ResponseEntity.ok(serviceResponse);
-           }
-           else{
-               serviceResponse.setMessage("Codigo is not validate");
-               return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(serviceResponse);
-           }
         });
     }
 

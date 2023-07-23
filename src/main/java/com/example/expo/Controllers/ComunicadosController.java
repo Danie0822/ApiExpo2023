@@ -1,11 +1,10 @@
 package com.example.expo.Controllers;
 
-
-import com.example.expo.Models.CodigosConductuales;
-import com.example.expo.Models.NivelesCodigosConductuales;
+import com.example.expo.Models.Comunicados;
+import com.example.expo.Models.Especialidades;
 import com.example.expo.Models.ServiceResponse;
-import com.example.expo.Services.CodigosConductualesDB;
-import com.example.expo.Services.FuncionesDB;
+import com.example.expo.Services.ComunicadosDB;
+import com.example.expo.Services.EspecialidadesDB;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,32 +13,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("CodigosConductuales")
-public class CodigosConductualesController {
+@RequestMapping("Comunicados")
+public class ComunicadosController {
     @GetMapping("/list")
-    public List<?> obtenerCodigos(){
-        CompletableFuture<List<?>> futureEspecialidades= new CodigosConductualesDB().obtenerCodigosConductualesAsync();
-        List<?> CodigosConductuales = futureEspecialidades.join();
-        return CodigosConductuales;
-    }
-    @GetMapping("/String")
-    public List<?> obtener(){
-        CompletableFuture<List<?>> futureEspecialidades= new CodigosConductualesDB().obtenerCodigosConductualesStringAsync();
-        List<?> CodigosConductuales = futureEspecialidades.join();
-        return CodigosConductuales;
-    }
-
-
-    @GetMapping("/Search/{idEstudiante}")
-    public List<?> obtenerCodigosConductualesStringPorEstudianteAsync(@PathVariable String idEstudiante) {
-        CompletableFuture<List<?>> futureResult = new CodigosConductualesDB().BuscarCodigoConductualesAsync(idEstudiante);
-        List<?> CodigosConductuales = futureResult.join();
-        return CodigosConductuales;
+    public List<?> obtenerGrupos() {
+        CompletableFuture<List<?>> futureEspecialidades = new ComunicadosDB().obtenerEspecialidadesAsync();
+        List<?> especialidades = futureEspecialidades.join();
+        return especialidades;
     }
 
     @PostMapping("/save")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody CodigosConductuales CodigosConductuales){
-        CompletableFuture<Integer> futureResult= CodigosConductualesDB.insertarCodigosConductualesAsync(CodigosConductuales);
+    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Comunicados especialidad) {
+        CompletableFuture<Integer> futureResult = ComunicadosDB.insertarComunicadosAsync(especialidad);
 
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();
@@ -56,7 +41,7 @@ public class CodigosConductualesController {
 
     @DeleteMapping("/delete/{id}")
     public CompletableFuture<ResponseEntity<ServiceResponse>> update(@PathVariable int id) {
-        CompletableFuture<Integer> futureResult = CodigosConductualesDB.eliminarCodigosConductualesAsync(id);
+        CompletableFuture<Integer> futureResult = ComunicadosDB.eliminarComunicadosAsync(id);
 
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();
@@ -72,8 +57,8 @@ public class CodigosConductualesController {
     }
 
     @PutMapping("/update")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody CodigosConductuales CodigosConductuales){
-        CompletableFuture<Integer> futureResult = CodigosConductualesDB.actualizarCodigosConductualesAsync(CodigosConductuales);
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Comunicados especialidad) {
+        CompletableFuture<Integer> futureResult = ComunicadosDB.actualizarEspecialidadesAsync(especialidad);
 
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();
