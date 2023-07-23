@@ -103,6 +103,35 @@ public class CredencialesDB {
         });
     }
 
+    public CompletableFuture<Integer> validarCredencialesNoEstudianteAsync(String codigo){
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "SELECT * FROM TbCredenciales where codigo = ? AND idTipoEstudiante <> 2";
+            try(PreparedStatement stmt = _cn.prepareStatement(query)){
+                stmt.setString(1,codigo);
+
+                ResultSet rs = stmt.executeQuery();
+
+                if(rs.next()) return 1;
+                else{
+                    return 0;
+                }
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return 2;
+            }
+        }).whenComplete((result, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public CompletableFuture<List<?>> buscarCredencialesEstudianteAsync(String filter){
         return CompletableFuture.supplyAsync(() -> {
             String realFilter = "%"+filter+"%";
