@@ -23,6 +23,13 @@ public class TiposCodigosConductualesController {
         List<?> TiposCodigosConductuales = futureEspecialidades.join();
         return TiposCodigosConductuales;
     }
+
+    @GetMapping("/get/{id}")
+    public String getTipoCodigoConductual(@PathVariable int id){
+        CompletableFuture<String> futureTipoCodigoConductual = new TiposCodigosConductualesDB().getTipoCodigoConductualAsync(id);
+        String tipoCodigoConductual = futureTipoCodigoConductual.join();
+        return tipoCodigoConductual;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody TiposCodigosConductuales TiposCodigosConductuales){
         CompletableFuture<Integer> futureResult= TiposCodigosConductualesDB.insertarTiposCodigosConductuales(TiposCodigosConductuales);

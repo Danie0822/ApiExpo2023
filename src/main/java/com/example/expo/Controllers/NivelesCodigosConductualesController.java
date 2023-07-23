@@ -20,6 +20,13 @@ public class NivelesCodigosConductualesController {
         List<?> NivelesCodigosConductuales = futureEspecialidades.join();
         return NivelesCodigosConductuales;
     }
+
+    @GetMapping("/get/{id}")
+    public String getNivelCodigoConductual(@PathVariable int id){
+        CompletableFuture<String> futureNivelCodigoConductual = new NivelesCodigosConductualesDB().getNivelCodigoConductualAsync(id);
+        String nivelCodigoConductual = futureNivelCodigoConductual.join();
+        return nivelCodigoConductual;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody NivelesCodigosConductuales NivelesCodigosConductuales){
         CompletableFuture<Integer> futureResult= NivelesCodigosConductualesDB.insertarNivelesCodigosConductualesAsync(NivelesCodigosConductuales);

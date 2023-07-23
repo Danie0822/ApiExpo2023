@@ -12,6 +12,42 @@ public class NivelesCodigosConductualesDB {
     static Connection _cn;
     public NivelesCodigosConductualesDB(){_cn = new Conexion().openDB();}
 
+
+    public CompletableFuture<String> getNivelCodigoConductualAsync(int id){
+        return CompletableFuture.supplyAsync(()->{
+            String nivelesCodigosConductuales = "";
+            PreparedStatement statement = null;
+            try{
+                statement = _cn.prepareStatement("SELECT * FROM tbNivelesCodigosConductuales WHER idNivelCodigoConductual = ?");
+                statement.setInt(1,id);
+                ResultSet res = statement.executeQuery();
+                if(res.next()){
+                    nivelesCodigosConductuales = res.getString("nivelCodigoConductual");
+                }
+                return nivelesCodigosConductuales;
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+                return "";
+            } finally {
+                try {
+                    if (statement!=null){
+                        statement.close();
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((NivelesCodigosConductuales, throwable) -> {
+            try {
+                if (_cn !=null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
     public CompletableFuture<List<?>> obtenerNivelesCodigosConductualesAsync(){
         return CompletableFuture.supplyAsync(()->{
             List<NivelesCodigosConductuales> NivelesCodigosConductuales = new ArrayList<>();

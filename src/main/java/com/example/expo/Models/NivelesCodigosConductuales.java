@@ -12,4 +12,8 @@ public class NivelesCodigosConductuales {
         this.idNivelCodigoConductual= idNivelCodigoConductual;
         this.nivelCodigoConductual= nivelCodigoConductual;
     }
+
+    public NivelesCodigosConductuales(){
+
+    }
 }

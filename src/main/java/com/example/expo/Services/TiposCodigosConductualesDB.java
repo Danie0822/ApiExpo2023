@@ -16,6 +16,42 @@ public class TiposCodigosConductualesDB {
 
     public TiposCodigosConductualesDB(){_cn = new Conexion().openDB();}
 
+
+    public CompletableFuture<String> getTipoCodigoConductualAsync(int id){
+        return CompletableFuture.supplyAsync(()->{
+            String tipoCodigoConductual = "";
+            PreparedStatement statement = null;
+            try{
+                statement = _cn.prepareStatement("SELECT * FROM tbTiposCodigosConductuales WHER idTipoCodigoConductual = ?");
+                statement.setInt(1,id);
+                ResultSet res = statement.executeQuery();
+                if(res.next()){
+                    tipoCodigoConductual = res.getString("nivelCodigoConductual");
+                }
+                return tipoCodigoConductual;
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+                return "";
+            } finally {
+                try {
+                    if (statement!=null){
+                        statement.close();
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((TiposCodigosConductuales, throwable) -> {
+            try {
+                if (_cn !=null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
     public CompletableFuture<List<?>> obtenerTiposCodigosConductualesAsync(){
         return CompletableFuture.supplyAsync(()->{
             List<TiposCodigosConductuales> TiposCodigosConductuales = new ArrayList<>();
