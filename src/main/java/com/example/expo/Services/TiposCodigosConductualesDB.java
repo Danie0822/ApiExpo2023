@@ -26,7 +26,7 @@ public class TiposCodigosConductualesDB {
                 statement.setInt(1,id);
                 ResultSet res = statement.executeQuery();
                 if(res.next()){
-                    tipoCodigoConductual = res.getString("nivelCodigoConductual");
+                    tipoCodigoConductual = res.getString("tipoCodigoConductual");
                 }
                 return tipoCodigoConductual;
             }
