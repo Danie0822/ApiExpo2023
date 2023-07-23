@@ -21,9 +21,7 @@ public class CodigosConductualesDB {
 
             try {
                 statement = _cn.createStatement();
-                ResultSet result = statement.executeQuery("select a.idCodigoConductual, b.tipoCodigoConductual, c.nivelCodigoConductual, a.codigoConductual\n" +
-                        "from tbCodigosConductuales a, tbTiposCodigosConductuales b, tbNivelesCodigosConductuales c \n" +
-                        "where a.idTipoCodigoConductual = b.idTipoCodigoConductual AND a.idNivelCodigoConductual = c.idNivelCodigoConductual;");
+                ResultSet result = statement.executeQuery("SELECT * FROM tbCodigosConductuales;");
 
                 while (result.next()){
                     CodigosConductuales codigosConductuales = new CodigosConductuales(
