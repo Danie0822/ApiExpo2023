@@ -22,7 +22,7 @@ public class TiposCodigosConductualesDB {
             String tipoCodigoConductual = "";
             PreparedStatement statement = null;
             try{
-                statement = _cn.prepareStatement("SELECT * FROM tbTiposCodigosConductuales WHER idTipoCodigoConductual = ?");
+                statement = _cn.prepareStatement("SELECT * FROM tbTiposCodigosConductuales WHERE idTipoCodigoConductual = ?");
                 statement.setInt(1,id);
                 ResultSet res = statement.executeQuery();
                 if(res.next()){
