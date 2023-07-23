@@ -18,7 +18,7 @@ public class NivelesCodigosConductualesDB {
             String nivelesCodigosConductuales = "";
             PreparedStatement statement = null;
             try{
-                statement = _cn.prepareStatement("SELECT * FROM tbNivelesCodigosConductuales WHER idNivelCodigoConductual = ?");
+                statement = _cn.prepareStatement("SELECT * FROM tbNivelesCodigosConductuales WHERE idNivelCodigoConductual = ?");
                 statement.setInt(1,id);
                 ResultSet res = statement.executeQuery();
                 if(res.next()){
