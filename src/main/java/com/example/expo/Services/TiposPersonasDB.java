@@ -54,13 +54,13 @@ public class TiposPersonasDB {
 
     public CompletableFuture<String> obtenerTipoPersonaAsync(int id) {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "select * from tbTiposPersonas WHERE idTipoPersona = ?;";
+            String query = "select * from tbTiposPersonas WHERE idTipoPersona = ?";
 
             try (PreparedStatement stnt = _cn.prepareStatement(query)) {
                 stnt.setInt(1,id);
                 String TiposPersonas = "";
 
-                ResultSet result = stnt.executeQuery(query);
+                ResultSet result = stnt.executeQuery();
 
                 if(result.next()){
                     TiposPersonas = result.getString("tipoPersona");
