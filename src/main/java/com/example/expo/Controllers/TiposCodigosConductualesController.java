@@ -30,6 +30,13 @@ public class TiposCodigosConductualesController {
         String tipoCodigoConductual = futureTipoCodigoConductual.join();
         return tipoCodigoConductual;
     }
+
+    @GetMapping("/getName/{name}")
+    public Integer getTipoCodigoConductualName(@PathVariable String name){
+        CompletableFuture<Integer> futureIdTipoCodigoConductual = new TiposCodigosConductualesDB().getTipoCodigoConductualNameAsync(name);
+        Integer idTipoCodigoConductual = futureIdTipoCodigoConductual.join();
+        return idTipoCodigoConductual;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody TiposCodigosConductuales TiposCodigosConductuales){
         CompletableFuture<Integer> futureResult= TiposCodigosConductualesDB.insertarTiposCodigosConductuales(TiposCodigosConductuales);

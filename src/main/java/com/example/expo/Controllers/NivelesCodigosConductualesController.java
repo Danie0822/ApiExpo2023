@@ -27,6 +27,13 @@ public class NivelesCodigosConductualesController {
         String nivelCodigoConductual = futureNivelCodigoConductual.join();
         return nivelCodigoConductual;
     }
+
+    @GetMapping("/getName/{name}")
+    public Integer getNivelCodigoConductualName(@PathVariable String name){
+        CompletableFuture<Integer> futureIdNivelCodigoConductual = new NivelesCodigosConductualesDB().getNivelCodigoConductualNameAsync(name);
+        Integer idNivelCodigoConductual = futureIdNivelCodigoConductual.join();
+        return idNivelCodigoConductual;
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody NivelesCodigosConductuales NivelesCodigosConductuales){
         CompletableFuture<Integer> futureResult= NivelesCodigosConductualesDB.insertarNivelesCodigosConductualesAsync(NivelesCodigosConductuales);
