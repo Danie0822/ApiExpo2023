@@ -44,6 +44,13 @@ public class CredencialesController {
         List<?> credenciales = futurecredenciales.join();
         return credenciales;
     }
+
+    @GetMapping("/getNo/{tipo}")
+    public List<?> obtenerLIstaCredencialesNoTipo(@PathVariable int tipo){
+        CompletableFuture<List<?>> futureCrendenciales = new CredencialesDB().obtenerCredencialesNoTipoAsync(tipo);
+        List<?> credenciales = futureCrendenciales.join();
+        return credenciales;
+    }
     @GetMapping("/user")
     public ResponseEntity<?> obtenerUsuario(@RequestParam("correo") String correo, @RequestParam("claveCredenciales") String claveCredenciales) {
         CompletableFuture<List<?>> futureCredenciales = new CredencialesDB().obtenerCredencialesAsync(correo, claveCredenciales);
