@@ -62,7 +62,7 @@ public class CredencialesDB {
 
     public static CompletableFuture<List<?>> obtenerCredencialesTipoAsync(int tipo){
         return CompletableFuture.supplyAsync(() -> {
-            String query = "select * from tbCredenciales where idTipoPersona = ?;";
+            String query = "select * from tbCredenciales where idTipoPersona = ?";
 
             try(PreparedStatement stmt = _cn.prepareStatement(query)){
                 stmt.setInt(1,tipo);

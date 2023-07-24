@@ -24,7 +24,7 @@ public class CredencialesController {
         return credenciales;
     }
 
-    @GetMapping("/list/{tipo}")
+    @GetMapping("/get/{tipo}")
     public List<?> obtenerListaCredencialesTipo(@PathVariable int tipo){
         CompletableFuture<List<?>> futurecredenciales = new CredencialesDB().obtenerCredencialesTipoAsync(tipo);
         List<?> credenciales = futurecredenciales.join();
