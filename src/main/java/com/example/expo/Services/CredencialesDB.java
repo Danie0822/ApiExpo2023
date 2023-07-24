@@ -493,5 +493,38 @@ public class CredencialesDB {
         });
     }
 
+    public static CompletableFuture<Integer> eliminarCredencialCodigoAsync(String codigo){
+        return CompletableFuture.supplyAsync(() -> {
+            PreparedStatement stmt = null;
+            new CredencialesDB();
+            try{
+                stmt = _cn.prepareStatement("delete from tbCredenciales where codigo = ?");
+                stmt.setString(1,codigo);
+                stmt.executeUpdate();
+                return 1;
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return 0;
+            }
+            finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
 }

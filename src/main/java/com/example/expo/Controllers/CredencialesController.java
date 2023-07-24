@@ -126,6 +126,21 @@ public class CredencialesController {
         });
     }
 
+    @DeleteMapping("/deleteCodigo/{codigo}")
+    public CompletableFuture<ResponseEntity<ServiceResponse>> deleteCodigo(@PathVariable String codigo){
+        CompletableFuture<Integer> futureRes = CredencialesDB.eliminarCredencialCodigoAsync(codigo);
+        return futureRes.thenApply(result -> {
+            ServiceResponse serviceResponse = new ServiceResponse();
+            if(result == 1){
+                serviceResponse.setMessage("Item removed with success");
+                return ResponseEntity.ok(serviceResponse);
+            }
+            else{
+                serviceResponse.setMessage("Failed to remove item");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(serviceResponse);
+            }
+        });
+    }
 
     @PutMapping("/update")
     public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Credenciales credenciales){
