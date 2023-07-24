@@ -24,6 +24,20 @@ public class CredencialesController {
         return credenciales;
     }
 
+    @GetMapping("/getGrado/{id}")
+    public String obtenerGradoEstudiante(@PathVariable int id){
+        CompletableFuture<String> futureGrado = new CredencialesDB().obtenerGradoEstudianteAsync(id);
+        String grado = futureGrado.join();
+        return grado;
+    }
+
+    @GetMapping("/getEspecialidad/{id}")
+    public String obtenerEspecialidad(@PathVariable int id){
+        CompletableFuture<String> futureEspecialidad = new CredencialesDB().obtenerEspecialidadEstudianteAsync(id);
+        String especialidad = futureEspecialidad.join();
+        return especialidad;
+    }
+
     @GetMapping("/get/{tipo}")
     public List<?> obtenerListaCredencialesTipo(@PathVariable int tipo){
         CompletableFuture<List<?>> futurecredenciales = new CredencialesDB().obtenerCredencialesTipoAsync(tipo);
