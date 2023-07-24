@@ -230,7 +230,7 @@ public class CredencialesDB {
             try {
                 statement = _cn.createStatement();
                 String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
-                ResultSet res =statement.executeQuery(query);
+                ResultSet res = statement.executeQuery(query);
 
                 while(res.next()){
                     int idGrado = res.getInt("idGradoAcademico");
@@ -238,13 +238,13 @@ public class CredencialesDB {
                     stmt.setInt(1,idGrado);
                     ResultSet resultSet = stmt.executeQuery();
                     if(resultSet.next()){
-                        int idEspecialidad = res.getInt("idEspecialidad");
+                        int idEspecialidad = resultSet.getInt("idEspecialidad");
                         PreparedStatement stmt1 = _cn.prepareStatement("select * from tbEspecialidades where idEspecialidad = ?");
 
                         stmt1.setInt(1,idEspecialidad);
                         ResultSet resultSet1 = stmt1.executeQuery();
                         if(resultSet1.next()){
-                            especialidad+= resultSet1.getString("especialidad");
+                            especialidad = resultSet1.getString("especialidad");
                         }
                     }
                 }
