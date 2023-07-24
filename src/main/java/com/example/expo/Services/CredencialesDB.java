@@ -229,7 +229,7 @@ public class CredencialesDB {
 
             try {
                 statement = _cn.createStatement();
-                String query = "select (idGradoAcademico) from tbMatriculas where idPersona = " + idPersona;
+                String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
                 ResultSet res =statement.executeQuery(query);
 
                 while(res.next()){
@@ -281,7 +281,7 @@ public class CredencialesDB {
 
             try {
                 statement = _cn.createStatement();
-                String query = "select (idGradoAcademico) from tbMatriculas where idPersona = " + idPersona;
+                String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
                 ResultSet res =statement.executeQuery(query);
 
                 while(res.next()){
