@@ -19,7 +19,6 @@ public class TiposPersonasController {
 
 
     @GetMapping("/get/{id}")
-
     public String ObtenerTipoPersona(@PathVariable int id){
         CompletableFuture<String> futureTipoPersona = new TiposPersonasDB().obtenerTipoPersonaAsync(id);
         String tipoPersona = futureTipoPersona.join();

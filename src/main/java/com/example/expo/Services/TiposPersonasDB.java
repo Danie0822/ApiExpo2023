@@ -62,8 +62,7 @@ public class TiposPersonasDB {
 
                 ResultSet result = stnt.executeQuery(query);
 
-                while(result.next()){
-
+                if(result.next()){
                     TiposPersonas = result.getString("tipoPersona");
                 }
                 stnt.close();
