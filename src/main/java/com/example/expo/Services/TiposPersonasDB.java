@@ -52,6 +52,38 @@ public class TiposPersonasDB {
             });
         }
 
+    public CompletableFuture<String> obtenerTipoPersonaAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select * from tbTiposPersonas WHERE idTipoPersona = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                stnt.setInt(1,id);
+                String TiposPersonas = "";
+
+                ResultSet result = stnt.executeQuery(query);
+
+                while(result.next()){
+
+                    TiposPersonas = result.getString("tipoPersona");
+                }
+                stnt.close();
+                return TiposPersonas;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }).whenComplete((TiposPersonas, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static CompletableFuture<Integer> insertarTiposPersonasAsync(TiposPersonas TiposPersonas) {
         return CompletableFuture.supplyAsync(() -> {
             new TiposPersonasDB();

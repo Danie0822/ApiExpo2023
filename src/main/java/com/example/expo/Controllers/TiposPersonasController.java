@@ -17,6 +17,15 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("TiposPersonas")
 public class TiposPersonasController {
 
+
+    @GetMapping("/get/{id}")
+
+    public String ObtenerTipoPersona(@PathVariable int id){
+        CompletableFuture<String> futureTipoPersona = new TiposPersonasDB().obtenerTipoPersonaAsync(id);
+        String tipoPersona = futureTipoPersona.join();
+        return tipoPersona;
+    }
+
     @GetMapping("/list")
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new TiposPersonasDB().obtenerTiposPersonasAsync();
