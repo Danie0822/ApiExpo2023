@@ -239,7 +239,7 @@ public class CredencialesDB {
                     ResultSet resultSet = stmt.executeQuery();
                     if(resultSet.next()){
                         int idEspecialidad = res.getInt("idEspecialidad");
-                        PreparedStatement stmt1 = _cn.prepareStatement("select * from tbEspecialidades where idNivelAcademico = ?");
+                        PreparedStatement stmt1 = _cn.prepareStatement("select * from tbEspecialidades where idEspecialidad = ?");
 
                         stmt1.setInt(1,idEspecialidad);
                         ResultSet resultSet1 = stmt1.executeQuery();
