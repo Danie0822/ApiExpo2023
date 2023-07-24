@@ -295,7 +295,7 @@ public class CredencialesDB {
                         PreparedStatement stmt1 = _cn.prepareStatement("select * from tbNivelesAcademicos where idNivelAcademico = ?");
                         PreparedStatement stmt2 = _cn.prepareStatement("select * from tbSecciones where idSeccion = ?");
                         stmt1.setInt(1,idNivelAcademico);
-                        stmt2.setInt(2,idSeccion);
+                        stmt2.setInt(1,idSeccion);
                         ResultSet resultSet1 = stmt1.executeQuery();
                         ResultSet resultSet2 = stmt2.executeQuery();
                         if(resultSet1.next() && resultSet2.next()){
