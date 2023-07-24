@@ -1,7 +1,9 @@
 package com.example.expo.Services;
 
+import com.example.expo.Models.Contra;
 import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.ObservacionesString;
+import com.example.expo.Models.Recu;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -148,7 +150,75 @@ public class CredencialesDB {
             }
         });
     }
+    public static CompletableFuture<Integer> UpdateContra(Contra Contra){
+        return CompletableFuture.supplyAsync(() ->{
+            PreparedStatement stmt = null;
+            new CredencialesDB();
+            try{
+                stmt = _cn.prepareStatement("exec UpdateContraseñas ?,?;");
+                stmt.setString(1,Contra.getClaveCredenciales());
+                stmt.setInt(2,Contra.getIdPersona());
+                stmt.executeUpdate();
+                return 1;
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return 0;
+            }
+            finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    if (_cn != null && !_cn.isClosed()) {
+                        _cn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
+    public CompletableFuture<List<?>> ObtenerProfesor(String correo) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "SELECT idPersona, idTipoPersona, correo FROM tbCredenciales where correo = ? ;";
+
+            try (PreparedStatement stmt = _cn.prepareStatement(query)) {
+                stmt.setString(1, correo);
+
+                List<Recu> credenciales = new ArrayList<>();
+
+                ResultSet res = stmt.executeQuery();
+
+                while (res.next()) {
+                    Recu ncredencial = new Recu(
+                            res.getInt("idPersona"),
+                            res.getInt("idTipoPersona"),
+                            res.getString("correo")
+                    );
+                    credenciales.add(ncredencial);
+                }
+
+                return credenciales;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((result, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
     public static CompletableFuture<Integer> validarCredencialesNoEstudianteAsync(String codigo){
         return CompletableFuture.supplyAsync(() -> {
             String query = "SELECT * FROM TbCredenciales where codigo = ? AND idTipoEstudiante <> 2";

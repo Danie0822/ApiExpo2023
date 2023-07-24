@@ -1,5 +1,6 @@
 package com.example.expo.Controllers;
 
+import com.example.expo.Models.Contra;
 import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.ServiceResponse;
 import com.example.expo.Services.CodigosConductualesDB;
@@ -37,7 +38,26 @@ public class CredencialesController {
         String especialidad = futureEspecialidad.join();
         return especialidad;
     }
+    @GetMapping("/validar")
+    public ResponseEntity<?> Obtener(@RequestParam("correo") String correo) {
+        CompletableFuture<List<?>> futureCredenciales = new CredencialesDB().ObtenerProfesor(correo);
 
+        try {
+            List<?> credenciales = futureCredenciales.get();
+
+            if (!credenciales.isEmpty()) {
+                // Se encontraron coincidencias, se devuelve el primer resultado
+                Object usuario = credenciales.get(0);
+                return ResponseEntity.ok(usuario);
+            } else {
+                // No se encontraron coincidencias
+                return ResponseEntity.notFound().build();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     @GetMapping("/get/{tipo}")
     public List<?> obtenerListaCredencialesTipo(@PathVariable int tipo){
         CompletableFuture<List<?>> futurecredenciales = new CredencialesDB().obtenerCredencialesTipoAsync(tipo);
@@ -141,7 +161,20 @@ public class CredencialesController {
             }
         });
     }
-
+    @PutMapping("/Contra")
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Contra Contra){
+        CompletableFuture<Integer> futureRes = CredencialesDB.UpdateContra(Contra);
+        return futureRes.thenApply(result -> {
+            ServiceResponse serviceResponse = new ServiceResponse();
+            if (result == 1) {
+                serviceResponse.setMessage("Item updated with success");
+                return ResponseEntity.ok(serviceResponse);
+            } else {
+                serviceResponse.setMessage("Failed to update item");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(serviceResponse);
+            }
+        });
+    }
     @PutMapping("/update")
     public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Credenciales credenciales){
         CompletableFuture<Integer> futureRes = CredencialesDB.actualizarCredencialesAsync(credenciales);
