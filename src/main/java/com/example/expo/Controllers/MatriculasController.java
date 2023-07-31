@@ -23,6 +23,13 @@ public class MatriculasController {
         return especialidades;
     }
 
+    @GetMapping("/get/{id}")
+    public Matriculas obtenerMatricula(@PathVariable int id){
+        CompletableFuture<?> futureMatricula = new MatriculasDB().obtenerMatriculaAsync(id);
+        Matriculas matricula = (Matriculas) futureMatricula.join();
+        return matricula;
+    }
+
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Matriculas especialidad) {
         CompletableFuture<Integer> futureResult = MatriculasDB.insertarComunicadosAsync(especialidad);

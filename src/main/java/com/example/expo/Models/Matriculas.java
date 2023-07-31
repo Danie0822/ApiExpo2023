@@ -19,4 +19,8 @@ public class Matriculas {
         this.idGradoTecnico = idGradoTecnico;
     }
 
+    public Matriculas(){
+
+    }
+
 }

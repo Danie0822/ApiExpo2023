@@ -64,6 +64,53 @@ public class MatriculasDB {
         });
     }
 
+    public CompletableFuture<?> obtenerMatriculaAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            Matriculas especialidades = new Matriculas();
+            PreparedStatement statement = null;
+
+            try {
+                statement = _cn.prepareStatement("SELECT * FROM tbMatriculas WHERE idEstudiante = ?;");
+                statement.setInt(1,id);
+                ResultSet result = statement.executeQuery();
+
+                if (result.next()) {
+                    Matriculas especialidad = new Matriculas(
+                            result.getInt("idMatricula"),
+                            result.getInt("idEstudiante"),
+                            result.getInt("idGradoAcademico"),
+                            result.getInt("idGradoTecnico"),
+                            result.getBytes("horario")
+                    );
+
+                    especialidades = especialidad;
+                }
+
+                result.close();
+                return especialidades;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((especialidades, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 
 
     public static CompletableFuture<Integer> insertarComunicadosAsync(Matriculas matricula) {
