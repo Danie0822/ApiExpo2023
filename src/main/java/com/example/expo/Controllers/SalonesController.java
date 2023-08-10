@@ -21,15 +21,11 @@ import java.util.concurrent.CompletableFuture;
 public class SalonesController {
 
     @GetMapping("/list")
-    public CompletableFuture<Map<String, Object>> obtenerGrupos() {
-        CompletableFuture<List<?>> salonesFuture = new SalonesDB().obtenerSalonesAsync();
-        return salonesFuture.thenApply(salones -> {
-            Map<String, Object> response = new HashMap<>();
-            response.put("salones", salones);
-            return response;
-        });
+    public List<?> obtenerGrupos() {
+        CompletableFuture<List<?>> futureEspecialidades = new SalonesDB().obtenerSalonesAsync();
+        List<?> Salones = futureEspecialidades.join();
+        return Salones;
     }
-
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Salones Salones) {
         return  SalonesDB.insertarSalonesAsync(Salones)
