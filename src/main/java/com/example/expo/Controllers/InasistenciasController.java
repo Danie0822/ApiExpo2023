@@ -1,5 +1,6 @@
 package com.example.expo.Controllers;
 
+import com.example.expo.Models.InasisitenciasEstado;
 import com.example.expo.Models.Inasistencias;
 import com.example.expo.Models.LlegadasTarde;
 import com.example.expo.Models.ServiceResponse;
@@ -56,6 +57,24 @@ public class InasistenciasController {
     @PutMapping("/update")
     public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Inasistencias Inasistencias) {
         CompletableFuture<Integer> futureResult = InasistenciasDB.ActualizarInasistenciasAsync(Inasistencias);
+
+        return futureResult.thenApply(result -> {
+            ServiceResponse serviceResponse = new ServiceResponse();
+
+            if (result == 1) {
+                serviceResponse.setMessage("Item updated with success");
+                return ResponseEntity.ok(serviceResponse);
+            } else {
+                serviceResponse.setMessage("Failed to update item");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(serviceResponse);
+            }
+        });
+    }
+
+    
+    @PutMapping("/Estado")
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody InasisitenciasEstado InasisitenciasEstado) {
+        CompletableFuture<Integer> futureResult = InasistenciasDB.ActualizarEstadoAsync(InasisitenciasEstado);
 
         return futureResult.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();

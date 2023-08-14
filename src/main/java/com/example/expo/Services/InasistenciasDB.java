@@ -159,5 +159,41 @@ public class InasistenciasDB {
         });
     }
 
+    public static CompletableFuture<Integer> ActualizarEstadoAsync(InasisitenciasEstado InasisitenciasEstado){
+        return CompletableFuture.supplyAsync(() -> {
+            new InasistenciasDB();
+            PreparedStatement statement = null;
+            try {
+                statement = _cn.prepareStatement("exec UpdateInasisitenciasEstado ?, ?;");
+                statement.setInt(1, InasisitenciasEstado.getEstado());
+                statement.setInt(2, InasisitenciasEstado.getIdInasistencia());
+                statement.executeUpdate();
+                return 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0;
+            }
+            finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((result, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+
 }
 
