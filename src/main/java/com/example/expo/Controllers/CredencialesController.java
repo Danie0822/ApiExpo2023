@@ -38,6 +38,20 @@ public class CredencialesController {
         String especialidad = futureEspecialidad.join();
         return especialidad;
     }
+
+    @GetMapping("/getSeccionAcademica/{id}")
+    public String obtenerSeccionAcademicaEstudiante(@PathVariable int id){
+        CompletableFuture<String> futureEspecialidad = new CredencialesDB().obtenerSeccionAcademicaEstudianteAsync(id);
+        String especialidad = futureEspecialidad.join();
+        return especialidad;
+    }
+
+    @GetMapping("/getSeccionTecnica/{id}")
+    public String obtenerSeccionTecnicaEstudiante(@PathVariable int id){
+        CompletableFuture<String> futureEspecialidad = new CredencialesDB().obtenerSeccionTecnicaEstudianteAsync(id);
+        String especialidad = futureEspecialidad.join();
+        return especialidad;
+    }
     @GetMapping("/validar")
     public ResponseEntity<?> Obtener(@RequestParam("correo") String correo) {
         CompletableFuture<List<?>> futureCredenciales = new CredencialesDB().ObtenerProfesor(correo);

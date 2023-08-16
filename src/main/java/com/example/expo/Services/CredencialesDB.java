@@ -338,6 +338,110 @@ public class CredencialesDB {
         });
     }
 
+    public CompletableFuture<String> obtenerSeccionTecnicaEstudianteAsync(int idPersona){
+        return CompletableFuture.supplyAsync(() -> {
+            String especialidad = "";
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
+                ResultSet res = statement.executeQuery(query);
+
+                while(res.next()){
+                    int idGrado = res.getInt("idGradoAcademico");
+                    PreparedStatement stmt = _cn.prepareStatement("select * from tbGrados where idGrado = ?");
+                    stmt.setInt(1,idGrado);
+                    ResultSet resultSet = stmt.executeQuery();
+                    if(resultSet.next()){
+                        int idEspecialidad = resultSet.getInt("idSeccionBachillerato");
+                        PreparedStatement stmt1 = _cn.prepareStatement("select * from tbSeccionesBachillerato where idSeccionBachillerato = ?");
+
+                        stmt1.setInt(1,idEspecialidad);
+                        ResultSet resultSet1 = stmt1.executeQuery();
+                        if(resultSet1.next()){
+                            especialidad = resultSet1.getString("seccionBachillerato");
+                        }
+                    }
+                }
+
+                res.close();
+                return especialidad;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return "";
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((Credenciales, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<String> obtenerSeccionAcademicaEstudianteAsync(int idPersona){
+        return CompletableFuture.supplyAsync(() -> {
+            String especialidad = "";
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
+                ResultSet res = statement.executeQuery(query);
+
+                while(res.next()){
+                    int idGrado = res.getInt("idGradoAcademico");
+                    PreparedStatement stmt = _cn.prepareStatement("select * from tbGrados where idGrado = ?");
+                    stmt.setInt(1,idGrado);
+                    ResultSet resultSet = stmt.executeQuery();
+                    if(resultSet.next()){
+                        int idEspecialidad = resultSet.getInt("idSeccion");
+                        PreparedStatement stmt1 = _cn.prepareStatement("select * from tbSecciones where idSeccion = ?");
+
+                        stmt1.setInt(1,idEspecialidad);
+                        ResultSet resultSet1 = stmt1.executeQuery();
+                        if(resultSet1.next()){
+                            especialidad = resultSet1.getString("seccion");
+                        }
+                    }
+                }
+
+                res.close();
+                return especialidad;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return "";
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((Credenciales, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public CompletableFuture<String> obtenerEspecialidadEstudianteAsync(int idPersona){
         return CompletableFuture.supplyAsync(() -> {
             String especialidad = "";
