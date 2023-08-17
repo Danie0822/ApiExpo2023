@@ -349,7 +349,7 @@ public class CredencialesDB {
                 ResultSet res = statement.executeQuery(query);
 
                 while(res.next()){
-                    int idGrado = res.getInt("idGradoAcademico");
+                    int idGrado = res.getInt("idGradoTecnico");
                     PreparedStatement stmt = _cn.prepareStatement("select * from tbGrados where idGrado = ?");
                     stmt.setInt(1,idGrado);
                     ResultSet resultSet = stmt.executeQuery();
