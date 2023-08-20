@@ -653,7 +653,7 @@ public class CredencialesDB {
                 stmt.setInt(6, credencial.getIdTipoPersona());
                 stmt.setString(7, credencial.getCorreo());
                 stmt.setString(8, credencial.getClaveCredenciales());
-                stmt.setBytes(8, credencial.getFoto());
+                stmt.setBytes(9, credencial.getFoto());
                 stmt.executeUpdate();
                 return 1;
             }
