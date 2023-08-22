@@ -2,6 +2,7 @@ package com.example.expo.Services;
 
 
 import com.example.expo.Models.Comunicados;
+import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.Matriculas;
 
 import java.sql.*;
@@ -63,6 +64,89 @@ public class MatriculasDB {
             }
         });
     }
+
+    public CompletableFuture<List<?>> obtenerGradoAcademicoAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Integer> especialidades = new ArrayList<>();
+            PreparedStatement statement = null;
+            String query = "SELECT idEstudiante FROM tbMatriculas where idGradoAcademico = ?;";
+            try {
+                statement = _cn.prepareStatement(query);
+                statement.setInt(1,id);
+                ResultSet result = statement.executeQuery();
+
+                while (result.next()) {
+
+
+                    especialidades.add(result.getInt("idEstudiante"));
+                }
+
+                result.close();
+                return especialidades;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((especialidades, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<List<?>> obtenerGradoTecnicoAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Integer> especialidades = new ArrayList<>();
+            PreparedStatement statement = null;
+            String query = "SELECT idEstudiante FROM tbMatriculas where idGradoTecnico = ?;";
+            try {
+                statement = _cn.prepareStatement(query);
+                statement.setInt(1,id);
+                ResultSet result = statement.executeQuery();
+
+                while (result.next()) {
+
+
+                    especialidades.add(result.getInt("idEstudiante"));
+                }
+
+                result.close();
+                return especialidades;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((especialidades, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 
     public CompletableFuture<?> obtenerMatriculaAsync(int id) {
         return CompletableFuture.supplyAsync(() -> {

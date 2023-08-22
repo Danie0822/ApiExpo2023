@@ -17,6 +17,7 @@ public class Matriculas {
         this.idEstudiante = idEstudiante;
         this.idGradoAcademico = idGradoAcademico;
         this.idGradoTecnico = idGradoTecnico;
+        this.horario = horario;
     }
 
     public Matriculas(){

@@ -12,7 +12,20 @@ public class Grados {
     int idEspecialidad;
     int idGrupoTecnico;
 
+    public Grados(){
 
+    }
+
+    public Grados(int idNivelAcademico, int idSeccion, int idSeccionBachillerato){
+        this.idNivelAcademico = idNivelAcademico;
+        this.idSeccion = idSeccion;
+        this.idSeccionBachillerato = idSeccionBachillerato;
+    }
+
+    public Grados(int idEspecialidad, int idGrupoTecnico){
+        this.idEspecialidad = idEspecialidad;
+        this.idGrupoTecnico = idGrupoTecnico;
+    }
 
 
     public Grados(int idGrado, int  idNivelAcademico, int idSeccion,int idSeccionBachillerato, int idDocenteEncargado, int idEspecialidad, int idGrupoTecnico ) {

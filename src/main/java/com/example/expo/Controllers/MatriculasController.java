@@ -30,6 +30,20 @@ public class MatriculasController {
         return matricula;
     }
 
+    @GetMapping("/getGradoAcademico/{id}")
+    public List<?> obtenerGradoAcademico(@PathVariable int id){
+        CompletableFuture<List<?>> futureGrado = new MatriculasDB().obtenerGradoAcademicoAsync(id);
+        List<?> grado = futureGrado.join();
+        return grado;
+    }
+
+    @GetMapping("/getGradoTecnico/{id}")
+    public List<?> obtenerGradoTecnico(@PathVariable int id){
+        CompletableFuture<List<?>> futureGrado = new MatriculasDB().obtenerGradoTecnicoAsync(id);
+        List<?> grado = futureGrado.join();
+        return grado;
+    }
+
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Matriculas especialidad) {
         CompletableFuture<Integer> futureResult = MatriculasDB.insertarComunicadosAsync(especialidad);
@@ -48,7 +62,7 @@ public class MatriculasController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@PathVariable int id) {
+    public CompletableFuture<ResponseEntity<ServiceResponse>> delete(@PathVariable int id) {
         CompletableFuture<Integer> futureResult = MatriculasDB.eliminarComunicadosAsync(id);
 
         return futureResult.thenApply(result -> {

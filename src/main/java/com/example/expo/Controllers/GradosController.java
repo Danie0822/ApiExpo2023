@@ -22,6 +22,25 @@ public class GradosController {
     public CompletableFuture<List<?>> obtenerGradosintAsync() {
         return new GradosDB().obtenerGradosintAsync();
     }
+
+    @GetMapping("/gradoAcademico")
+    public CompletableFuture<?> obtenerGradoAcademico(
+            @RequestParam("idNivelAcademico") int idNivelAcademico,
+            @RequestParam("idSeccion") int idSeccion,
+            @RequestParam("idSeccionBachillerato") int idSeccionBachillerato){
+
+            return new GradosDB().obtenerGradoAcademico(idNivelAcademico, idSeccion, idSeccionBachillerato);
+
+    }
+
+    @GetMapping("/gradoTecnico")
+    public CompletableFuture<?> obtenerGradoTecnico(
+            @RequestParam("idEspecialidad") int idEspecialidad,
+            @RequestParam("idGrupoTecnico") int idGrupoTecnico
+    ){
+        return new GradosDB().obtenerGradoTecnico(idEspecialidad, idGrupoTecnico);
+    }
+
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Grados Grados) {
         return GradosDB.insertarGradosAsync(Grados)

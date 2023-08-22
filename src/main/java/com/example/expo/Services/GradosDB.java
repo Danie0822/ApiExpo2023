@@ -54,6 +54,89 @@ public class GradosDB {
             }
         });
     }
+
+    public CompletableFuture<?> obtenerGradoAcademico(int idNivelAcademico, int idSeccion, int idSeccionBachillerato){
+        String query = "Select * from tbGrados where idNivelAcadademico = ? and idSeccion = ? and idSeccionBachillerato = ?";
+        return CompletableFuture.supplyAsync(() -> {
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+
+                stnt.setInt(1,idNivelAcademico);
+                stnt.setInt(2, idSeccion);
+                stnt.setInt(3, idSeccionBachillerato);
+
+                ResultSet result = stnt.executeQuery(query);
+
+                if (result.next()) {
+                    Grados grado = new Grados(
+                            result.getInt("idGrado"),
+                            result.getInt("idNivelAcademico"),
+                            result.getInt("idSeccion"),
+                            result.getInt("idSeccionBachillerato"),
+                            result.getInt("idDocenteEncargado"),
+                            result.getInt("idEspecialidad"),
+                            result.getInt("idGrupoTecnico")
+                    );
+                    return grado;
+                }
+                stnt.close();
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((grados, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<?> obtenerGradoTecnico(int idEspecialidad, int idGrupoTecnico){
+        String query = "Select * from tbGrados where idEspecialidad = ? and idGrupoTecnico = ?";
+        return CompletableFuture.supplyAsync(() -> {
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+
+                stnt.setInt(1,idEspecialidad);
+                stnt.setInt(2, idGrupoTecnico);
+
+                ResultSet result = stnt.executeQuery(query);
+
+                if (result.next()) {
+                    Grados grado = new Grados(
+                            result.getInt("idGrado"),
+                            result.getInt("idNivelAcademico"),
+                            result.getInt("idSeccion"),
+                            result.getInt("idSeccionBachillerato"),
+                            result.getInt("idDocenteEncargado"),
+                            result.getInt("idEspecialidad"),
+                            result.getInt("idGrupoTecnico")
+                    );
+                    return grado;
+                }
+                stnt.close();
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((grados, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
     public CompletableFuture<List<?>> obtenerGradosintAsync() {
         return CompletableFuture.supplyAsync(() -> {
             String query = "select * from tbGrados;";
