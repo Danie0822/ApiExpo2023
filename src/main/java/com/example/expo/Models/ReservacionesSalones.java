@@ -9,12 +9,14 @@ public class ReservacionesSalones {
     int idRangoHora;
     int idReservante;
     String motivoReserva;
+    int Estado ;
 
-    public ReservacionesSalones(int idReservacionSalon, int idSalon, int idRangoHora, int idReservante, String motivoReserva) {
+    public ReservacionesSalones(int idReservacionSalon, int idSalon, int idRangoHora, int idReservante, String motivoReserva, int Estado) {
         this.idReservacionSalon = idReservacionSalon;
         this.idSalon = idSalon;
         this.idRangoHora = idRangoHora;
         this.idReservante = idReservante;
         this.motivoReserva = motivoReserva;
+        this.Estado = Estado;
     }
 }

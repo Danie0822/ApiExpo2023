@@ -2,6 +2,7 @@ package com.example.expo.Controllers;
 
 import com.example.expo.Models.RangosHoras;
 import com.example.expo.Models.ReservacionesSalones;
+import com.example.expo.Models.ReservacionesSalonesEstado;
 import com.example.expo.Models.ServiceResponse;
 import com.example.expo.Services.RangosHorasDB;
 import com.example.expo.Services.ReservacionesSalonesDB;
@@ -54,7 +55,7 @@ public class ReservacionesSalonesController {
         });
     }
     @PutMapping("/update")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody ReservacionesSalones ReservacionesSalones) {
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody ReservacionesSalonesEstado ReservacionesSalones) {
         CompletableFuture<Integer> futureResult = ReservacionesSalonesDB.actualizarReservacionesSalonesAsync(ReservacionesSalones);
 
         return futureResult.thenApply(result -> {
