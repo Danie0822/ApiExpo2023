@@ -2,6 +2,7 @@ package com.example.expo.Services;
 
 import com.example.expo.Models.Encargados;
 import com.example.expo.Models.RangosHoras;
+import com.example.expo.Models.Salones;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -60,6 +61,49 @@ public class RangosHorasDB {
             }
         });
     }
+    public CompletableFuture<List<?>> BuscarCodigoConductualesAsync(String filter){
+        return CompletableFuture.supplyAsync(()->{
+            List<RangosHoras> CodigosConductuales = new ArrayList<>();
+            PreparedStatement stmt = null;
+            try {
+                String realFilter = "%"+filter+"%";
+                stmt = _cn.prepareStatement("SELECT * FROM tbRangosHoras WHERE titulo like ?;");
+                stmt.setString(1,realFilter);
+                ResultSet result = stmt.executeQuery();
+                while (result.next()){
+                    RangosHoras codigosConductuales = new RangosHoras(
+                            result.getInt("idRangoHora"),
+                            result.getString("titulo"),
+                            result.getString("inicio"),
+                            result.getString("final")
+                    );
+                    CodigosConductuales.add(codigosConductuales);
+                }
+                result.close();
+                return CodigosConductuales;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (stmt!=null){
+                        stmt.close();
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((CodigosConductuales, throwable) -> {
+            try {
+                if (_cn !=null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
 
     public static CompletableFuture<Integer> insertarRangosHorasAsync(RangosHoras RangosHoras) {
         return CompletableFuture.supplyAsync(() -> {
