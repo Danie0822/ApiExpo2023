@@ -1,9 +1,6 @@
 package com.example.expo.Services;
 
-import com.example.expo.Models.Grados;
-import com.example.expo.Models.GradosView;
-import com.example.expo.Models.Salones;
-import com.example.expo.Models.SeccionesBachillerato;
+import com.example.expo.Models.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -83,6 +80,48 @@ public class SalonesDB {
             }
         });
     }
+
+    public CompletableFuture<List<?>> BuscarCodigoConductualesAsync(String filter){
+        return CompletableFuture.supplyAsync(()->{
+            List<Salones> CodigosConductuales = new ArrayList<>();
+            PreparedStatement stmt = null;
+            try {
+                String realFilter = "%"+filter+"%";
+                stmt = _cn.prepareStatement("SELECT * FROM tbSalones WHERE codigoSalon like ?;");
+                stmt.setString(1,realFilter);
+                ResultSet result = stmt.executeQuery();
+                while (result.next()){
+                    Salones codigosConductuales = new Salones(
+                            result.getInt("idSalon"),
+                            result.getString("codigoSalon")
+                    );
+                    CodigosConductuales.add(codigosConductuales);
+                }
+                result.close();
+                return CodigosConductuales;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (stmt!=null){
+                        stmt.close();
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((CodigosConductuales, throwable) -> {
+            try {
+                if (_cn !=null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static CompletableFuture<Integer> eliminarSalonesAsync(int id){
         return CompletableFuture.supplyAsync(() -> {
             new SalonesDB();

@@ -4,6 +4,7 @@ import com.example.expo.Models.Grados;
 import com.example.expo.Models.Salones;
 import com.example.expo.Models.SeccionesBachillerato;
 import com.example.expo.Models.ServiceResponse;
+import com.example.expo.Services.CodigosConductualesDB;
 import com.example.expo.Services.GradosDB;
 import com.example.expo.Services.SalonesDB;
 import com.example.expo.Services.SeccionesBachilleratoDB;
@@ -25,6 +26,12 @@ public class SalonesController {
         CompletableFuture<List<?>> futureEspecialidades = new SalonesDB().obtenerSalonesAsync();
         List<?> Salones = futureEspecialidades.join();
         return Salones;
+    }
+    @GetMapping("/Search/{idEstudiante}")
+    public List<?> obtenerCodigosConductualesStringPorEstudianteAsync(@PathVariable String idEstudiante) {
+        CompletableFuture<List<?>> futureResult = new SalonesDB().BuscarCodigoConductualesAsync(idEstudiante);
+        List<?> CodigosConductuales = futureResult.join();
+        return CodigosConductuales;
     }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Salones Salones) {
