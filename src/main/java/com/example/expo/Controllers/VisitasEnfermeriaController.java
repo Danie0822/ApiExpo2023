@@ -17,12 +17,6 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("VisitasEnfermeria")
 public class VisitasEnfermeriaController {
 
-    @GetMapping("/list")
-    public List<?> obtenerGrupos() {
-        CompletableFuture<List<?>> futureEspecialidades = new VisitasEnfermeriaDB().obtenerVisitasEnfereriaAsync();
-        List<?> VisitasEnfermeria = futureEspecialidades.join();
-        return VisitasEnfermeria;
-    }
 
     @GetMapping("/String/{idEstudiante}")
     public List<?>obtenerVisitasEnfereriaStringPorEstudianteAsync(@PathVariable int idEstudiante) {

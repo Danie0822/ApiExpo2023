@@ -17,51 +17,7 @@ public class VisitasEnfermeriaDB {
     public VisitasEnfermeriaDB(){
         _cn = new Conexion().openDB();
     }
-    public CompletableFuture<List<?>> obtenerVisitasEnfereriaAsync() {
-        return CompletableFuture.supplyAsync(() -> {
-            List<VisitasEnfermeria> VisitasEnfermerias = new ArrayList<>();
-            Statement statement = null;
 
-            try {
-                statement = _cn.createStatement();
-                ResultSet result = statement.executeQuery("SELECT * FROM tbVisitasEnfermeria;");
-
-                while (result.next()) {
-                    VisitasEnfermeria visitasEnfermeria = new VisitasEnfermeria(
-                            result.getInt("idVisitaEnfermeria"),
-                            result.getInt("idPersona"),
-                            result.getInt("idPeriodo"),
-                            result.getString("fecha"),
-                            result.getString("detalleVisitia")
-                    );
-
-                    VisitasEnfermerias.add(visitasEnfermeria);
-                }
-
-                result.close();
-                return VisitasEnfermerias;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return Collections.emptyList();
-            } finally {
-                try {
-                    if (statement != null) {
-                        statement.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).whenComplete((VisitasEnfermerias, throwable) -> {
-            try {
-                if (_cn != null && !_cn.isClosed()) {
-                    _cn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
     public CompletableFuture<List<?>> obtenerVisitasEnfereriaStringPorEstudianteAsync(int idEstudiante) {
         return CompletableFuture.supplyAsync(() -> {
             List<VisitasEnfermeriaString> VisitasEnfermeriaString = new ArrayList<>();
@@ -165,7 +121,7 @@ public class VisitasEnfermeriaDB {
             PreparedStatement statement = null;
             try {
                 statement = _cn.prepareStatement(sql);
-                statement.setInt(1, VisitasEnfermeria.getIdPersona());
+                statement.setString(1, VisitasEnfermeria.getIdPersona());
                 statement.setInt(2, VisitasEnfermeria.getIdPeriodo());
                 statement.setString(3, VisitasEnfermeria.getFecha());
                 statement.setString(4, VisitasEnfermeria.getDetalleVisitia());
@@ -240,7 +196,7 @@ public class VisitasEnfermeriaDB {
             PreparedStatement statement = null;
             try  {
                 statement = _cn.prepareStatement(sql);
-                statement.setInt(1, VisitasEnfermeria.getIdPersona());
+                statement.setString(1, VisitasEnfermeria.getIdPersona());
                 statement.setInt(2, VisitasEnfermeria.getIdPeriodo());
                 statement.setString(3, VisitasEnfermeria.getFecha());
                 statement.setString(4, VisitasEnfermeria.getDetalleVisitia());
