@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -20,7 +21,7 @@ public class RecuperacionController {
     }
 
     @PostMapping("/enviarCodigo")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> enviarCodigo(@RequestBody Correo correo) {
+    public CompletableFuture<ResponseEntity<ServiceResponse>> enviarCodigo(@RequestBody Correo correo) throws MessagingException {
         CompletableFuture<Void> emailFuture = emailService.enviarCodigoRecuperacionAsync(correo);
 
         return emailFuture.thenApplyAsync(v -> {
