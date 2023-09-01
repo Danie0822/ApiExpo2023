@@ -2,6 +2,7 @@ package com.example.expo.Services;
 
 import com.example.expo.Models.RangosHoras;
 import com.example.expo.Models.ReservacionesSalones;
+import com.example.expo.Models.ReservacionesSalonesEstado;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class ReservacionesSalonesDB {
                             result.getInt("idSalon"),
                             result.getInt("idRangoHora"),
                             result.getInt("idReservante"),
-                            result.getString("motivoReserva")
+                            result.getString("motivoReserva"),
+                            result.getInt("Estado")
                     );
 
                     ReservacionesSalones.add(reservacionesSalones);
@@ -65,7 +67,7 @@ public class ReservacionesSalonesDB {
     public static CompletableFuture<Integer> insertarReservacionesSalonesAsync(ReservacionesSalones ReservacionesSalones) {
         return CompletableFuture.supplyAsync(() -> {
             new ReservacionesSalonesDB();
-            String sql = "exec AgregarReservacionesSalones ?,?,?,?;";
+            String sql = "exec AgregarReservacionesSalones ?,?,?,?,?;";
 
             PreparedStatement statement = null;
             try {
@@ -74,6 +76,7 @@ public class ReservacionesSalonesDB {
                 statement.setInt(2, ReservacionesSalones.getIdRangoHora());
                 statement.setInt(3, ReservacionesSalones.getIdReservante());
                 statement.setString(4, ReservacionesSalones.getMotivoReserva());
+                statement.setInt(5, ReservacionesSalones.getEstado());
                 statement.executeUpdate();
 
                 return 1;
@@ -137,19 +140,16 @@ public class ReservacionesSalonesDB {
 
 
 
-    public static CompletableFuture<Integer> actualizarReservacionesSalonesAsync(ReservacionesSalones ReservacionesSalones) {
+    public static CompletableFuture<Integer> actualizarReservacionesSalonesAsync(ReservacionesSalonesEstado ReservacionesSalones) {
         return CompletableFuture.supplyAsync(() -> {
             new ReservacionesSalonesDB();
 
-            String sql = "exec UpdateReservacionesSalones ?,?,?,?,?;";
+            String sql = "exec UpdateReservacionesSalonesEstado ?,?;";
             PreparedStatement statement = null;
             try  {
                 statement = _cn.prepareStatement(sql);
-                statement.setInt(1, ReservacionesSalones.getIdSalon());
-                statement.setInt(2, ReservacionesSalones.getIdRangoHora());
-                statement.setInt(3, ReservacionesSalones.getIdReservante());
-                statement.setString(4, ReservacionesSalones.getMotivoReserva());
-                statement.setInt(5, ReservacionesSalones.getIdReservacionSalon());
+                statement.setInt(1, ReservacionesSalones.getEstado());
+                statement.setInt(2, ReservacionesSalones.getIdReservacionSalon());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
