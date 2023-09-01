@@ -18,6 +18,12 @@ public class GruposTecnicosController {
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new GruposTecnicosDB().obtenerGruposTecnicosAsync();
     }
+
+    @GetMapping("/get/{id}")
+    public CompletableFuture<?> obtenerNombre(@PathVariable int id){
+        return new GruposTecnicosDB().obtenerGrupo(id);
+    }
+
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody GruposTecnicos GruposTecnicos) {
         return GruposTecnicosDB.insertarGruposTecnicosAsync(GruposTecnicos)

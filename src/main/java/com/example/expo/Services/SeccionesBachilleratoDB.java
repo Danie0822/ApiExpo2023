@@ -16,6 +16,35 @@ public class SeccionesBachilleratoDB {
     public SeccionesBachilleratoDB(){
         _cn = new Conexion().openDB();
     }
+
+    public CompletableFuture<?> obtenerSeccionBachilleratoAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select seccionBachillerato from tbSeccionesBachillerato where idSeccionBachillerato = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                stnt.setInt(1,id);
+                ResultSet result = stnt.executeQuery();
+
+                if(result.next()){
+                    return result.getString("seccionBachillerato");
+                }
+                stnt.close();
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((SeccionesBachillerato, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
         public CompletableFuture<List<?>> obtenerSeccionesBachilleratoAsync() {
             return CompletableFuture.supplyAsync(() -> {
                 String query = "select * from tbSeccionesBachillerato;";

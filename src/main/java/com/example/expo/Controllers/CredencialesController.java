@@ -18,6 +18,17 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("Credenciales")
 public class CredencialesController {
 
+
+    @GetMapping("/getName/{id}")
+    public CompletableFuture<?> obtenerNombre(@PathVariable int id){
+        return new CredencialesDB().obtenerNombre(id);
+    }
+
+    @GetMapping("/getPersona/{codigo}")
+    public CompletableFuture<?> obtenerPersonaByCodigo(@PathVariable String codigo){
+        return new CredencialesDB().obtenerPersonaByCodigo(codigo);
+    }
+
     @GetMapping("/list")
     public List<?> obtenerListaCredenciales(){
         CompletableFuture<List<?>> futurecredenciales = new CredencialesDB().obtenerCredencialesAsync();
@@ -49,6 +60,13 @@ public class CredencialesController {
     @GetMapping("/getSeccionTecnica/{id}")
     public String obtenerSeccionTecnicaEstudiante(@PathVariable int id){
         CompletableFuture<String> futureEspecialidad = new CredencialesDB().obtenerSeccionTecnicaEstudianteAsync(id);
+        String especialidad = futureEspecialidad.join();
+        return especialidad;
+    }
+
+    @GetMapping("/getGrupoTecnico/{id}")
+    public String obtenerGrupoTecnico (@PathVariable int id){
+        CompletableFuture<String> futureEspecialidad = new CredencialesDB().obtenerGrupoEstudianteAsync(id);
         String especialidad = futureEspecialidad.join();
         return especialidad;
     }

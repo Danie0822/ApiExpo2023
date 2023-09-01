@@ -22,6 +22,11 @@ public class SeccionesBachilleratosController {
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new SeccionesBachilleratoDB().obtenerSeccionesBachilleratoAsync();
     }
+
+    @GetMapping("/get/{id}")
+    public CompletableFuture<?> obtenerSeccionBachillerato(@PathVariable int id){
+        return new SeccionesBachilleratoDB().obtenerSeccionBachilleratoAsync(id);
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody SeccionesBachillerato SeccionesBachillerato) {
         return SeccionesBachilleratoDB.insertarSeccionesBachilleratoAsync(SeccionesBachillerato)

@@ -53,6 +53,72 @@ public class SeccionesDB {
             });
         }
 
+    public CompletableFuture<?> obtenerSeccionAsyncbyName(String seccion) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "   select * from tbSecciones where seccion = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                Secciones Secciones = new Secciones();
+                stnt.setString(1,seccion);
+                ResultSet result = stnt.executeQuery();
+
+                if(result.next()){
+                    Secciones Secciones2 = new Secciones(
+                            result.getInt("idSeccion"),
+                            result.getString("seccion")
+                    );
+
+                    return Secciones2;
+                }
+                stnt.close();
+                return Secciones;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((Secciones, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<?> obtenerSeccionAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "   select seccion from tbSecciones where idSeccion = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                Secciones Secciones = new Secciones();
+                stnt.setInt(1,id);
+                ResultSet result = stnt.executeQuery();
+
+                if(result.next()){
+
+                    return result.getString("seccion");
+                }
+                stnt.close();
+                return Secciones;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((Secciones, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static CompletableFuture<Integer> insertarSeccionesAsync(Secciones Secciones) {
         return CompletableFuture.supplyAsync(() -> {
             new SeccionesDB();

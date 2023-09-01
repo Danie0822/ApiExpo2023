@@ -1,7 +1,9 @@
 package com.example.expo.Services;
 
+import com.example.expo.Controllers.*;
 import com.example.expo.Models.Grados;
 import com.example.expo.Models.GradosView;
+import com.example.expo.Models.GruposTecnicos;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class GradosDB {
     }
     public CompletableFuture<List<?>> obtenerGradosAsync() {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "select * from GradosString;";
+            String query = "select * from Grados;";
 
             try (Statement stnt = _cn.createStatement()) {
                 List<GradosView> grados = new ArrayList<>();
@@ -27,12 +29,13 @@ public class GradosDB {
                 while (result.next()) {
                     GradosView gradosView = new GradosView(
                             result.getInt("idGrado"),
-                            result.getString("idNivelAcademico"),
-                            result.getString("idSeccion"),
-                            result.getString("idSeccionBachillerato"),
-                            result.getString("idDocenteEncargado"),
-                            result.getString("idEspecialidad"),
-                            result.getString("idGrupoTecnico")
+                            new NivelesAcademicosController().obtenerNivelAcademico(result.getInt("idNivelAcademico")).join().toString(),
+                            new SeccionesController().obtenerSeccion(result.getInt("idSeccion")).join().toString(),
+                            new SeccionesBachilleratosController().obtenerSeccionBachillerato(result.getInt("idSeccionBachillerato")).join().toString(),
+                            new CredencialesController().obtenerNombre(result.getInt("idDocenteEncargado")).join().toString(),
+                            new EspecialidadesController().obtenerEspecialidad(result.getInt("idEspecialidad")).join().toString(),
+                            new GruposTecnicosController().obtenerNombre(result.getInt("idGrupoTecnico")).join().toString(),
+                            result.getBytes("horario")
                     );
 
                     grados.add(gradosView);
@@ -56,7 +59,7 @@ public class GradosDB {
     }
 
     public CompletableFuture<?> obtenerGradoAcademico(int idNivelAcademico, int idSeccion, int idSeccionBachillerato){
-        String query = "Select * from tbGrados where idNivelAcadademico = ? and idSeccion = ? and idSeccionBachillerato = ?";
+        String query = "Select * from tbGrados where idNivelAcademico = ? and idSeccion = ? and idSeccionBachillerato = ?";
         return CompletableFuture.supplyAsync(() -> {
 
             try (PreparedStatement stnt = _cn.prepareStatement(query)) {
@@ -65,7 +68,7 @@ public class GradosDB {
                 stnt.setInt(2, idSeccion);
                 stnt.setInt(3, idSeccionBachillerato);
 
-                ResultSet result = stnt.executeQuery(query);
+                ResultSet result = stnt.executeQuery();
 
                 if (result.next()) {
                     Grados grado = new Grados(
@@ -75,7 +78,8 @@ public class GradosDB {
                             result.getInt("idSeccionBachillerato"),
                             result.getInt("idDocenteEncargado"),
                             result.getInt("idEspecialidad"),
-                            result.getInt("idGrupoTecnico")
+                            result.getInt("idGrupoTecnico"),
+                            result.getBytes("horario")
                     );
                     return grado;
                 }
@@ -106,7 +110,7 @@ public class GradosDB {
                 stnt.setInt(1,idEspecialidad);
                 stnt.setInt(2, idGrupoTecnico);
 
-                ResultSet result = stnt.executeQuery(query);
+                ResultSet result = stnt.executeQuery();
 
                 if (result.next()) {
                     Grados grado = new Grados(
@@ -116,7 +120,8 @@ public class GradosDB {
                             result.getInt("idSeccionBachillerato"),
                             result.getInt("idDocenteEncargado"),
                             result.getInt("idEspecialidad"),
-                            result.getInt("idGrupoTecnico")
+                            result.getInt("idGrupoTecnico"),
+                            result.getBytes("horario")
                     );
                     return grado;
                 }
@@ -154,7 +159,8 @@ public class GradosDB {
                             result.getInt("idSeccionBachillerato"),
                             result.getInt("idDocenteEncargado"),
                             result.getInt("idEspecialidad"),
-                            result.getInt("idGrupoTecnico")
+                            result.getInt("idGrupoTecnico"),
+                            result.getBytes("horarios")
                     );
 
                     grados.add(Grados2);
@@ -183,13 +189,14 @@ public class GradosDB {
            new GradosDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec AgregarGrados ?,?,?,?,?,?;");
+                statement = _cn.prepareStatement("insert into tbGrados value(?,?,?,?,?,?,?);");
                 statement.setInt(1, grados.getIdNivelAcademico());
                 statement.setInt(2, grados.getIdSeccion());
                 statement.setInt(3, grados.getIdSeccionBachillerato());
                 statement.setInt(4, grados.getIdDocenteEncargado());
                 statement.setInt(5, grados.getIdEspecialidad());
                 statement.setInt(6, grados.getIdGrupoTecnico());
+                statement.setBytes(7,grados.getHorario());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {
@@ -254,14 +261,22 @@ public class GradosDB {
             new GradosDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec UpdateGrados ?,?,?,?,?,?,?;");
+                statement = _cn.prepareStatement("update tbGrados set idNivelAcademico = ? " +
+                        "idSeccion = ?, " +
+                        "idSeccionBachillerato = ?, " +
+                        "idDocenteEncargado = ?, " +
+                        "idEspecialidad = ?, " +
+                        "idGrupoTecnico = ?, " +
+                        "horario = ? " +
+                        "where idGrado = ?;");
                 statement.setInt(1, grados.getIdNivelAcademico());
                 statement.setInt(2, grados.getIdSeccion());
                 statement.setInt(3, grados.getIdSeccionBachillerato());
                 statement.setInt(4, grados.getIdDocenteEncargado());
                 statement.setInt(5, grados.getIdEspecialidad());
                 statement.setInt(6, grados.getIdGrupoTecnico());
-                statement.setInt(7, grados.getIdGrado());
+                statement.setBytes(7,grados.getHorario());
+                statement.setInt(8,grados.getIdGrado());
                 statement.executeUpdate();
                 return 1;
             } catch (SQLException e) {

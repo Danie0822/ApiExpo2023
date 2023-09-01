@@ -16,6 +16,16 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("Secciones")
 public class SeccionesController {
+
+    @GetMapping("/get/{seccion}")
+    public CompletableFuture<?> obtenerSeccionbyName(@PathVariable String seccion){
+        return new SeccionesDB().obtenerSeccionAsyncbyName(seccion);
+    }
+
+    @GetMapping("/obtener/{id}")
+    public CompletableFuture<?> obtenerSeccion(@PathVariable int id){
+        return new SeccionesDB().obtenerSeccionAsync(id);
+    }
     @GetMapping("/list")
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new SeccionesDB().obtenerSeccionesAsync();

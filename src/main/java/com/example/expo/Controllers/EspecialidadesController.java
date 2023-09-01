@@ -19,6 +19,12 @@ public class EspecialidadesController {
         List<?> especialidades = futureEspecialidades.join();
         return especialidades;
     }
+
+    @GetMapping("/get/{id}")
+    public CompletableFuture<?> obtenerEspecialidad(@PathVariable int id){
+        return new EspecialidadesDB().obtenerNombre(id);
+    }
+
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Especialidades especialidad) {
         CompletableFuture<Integer> futureResult = EspecialidadesDB.insertarEspecialidadesAsync(especialidad);

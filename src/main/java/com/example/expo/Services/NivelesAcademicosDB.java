@@ -50,6 +50,36 @@ public class NivelesAcademicosDB {
             });
         }
 
+    public CompletableFuture<?> obtenerNivelAcademicoAsync(int idNivelAcademico) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select nivelAcademico from tbNivelesAcademicos where idNivelAcademico = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                stnt.setInt(1,idNivelAcademico);
+
+                ResultSet result = stnt.executeQuery(query);
+
+                if (result.next()){
+                    return result.getString("nivelAcademico");
+                }
+                stnt.close();
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((NivelesAcademicos, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static CompletableFuture<Integer> insertarNiveleAcademicosAsync(NivelesAcademicos NivelesAcademicos) {
         return CompletableFuture.supplyAsync(() -> {
             new NivelesAcademicosDB();

@@ -17,6 +17,44 @@ public class EspecialidadesDB {
     public EspecialidadesDB(){
         _cn = new Conexion().openDB();
     }
+
+    public CompletableFuture<?> obtenerNombre(int id){
+        return CompletableFuture.supplyAsync(() -> {
+            PreparedStatement statement = null;
+
+            try {
+                statement = _cn.prepareStatement("SELECT especialidad FROM tbEspecialidades where idEspecialidad = ?;");
+                statement.setInt(1,id);
+                ResultSet result = statement.executeQuery();
+
+                if (result.next()) {
+                    return result.getString("especialidad");
+                }
+
+                result.close();
+                return null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((especialidades, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
     public CompletableFuture<List<?>> obtenerEspecialidadesAsync() {
         return CompletableFuture.supplyAsync(() -> {
             List<Especialidades> especialidades = new ArrayList<>();

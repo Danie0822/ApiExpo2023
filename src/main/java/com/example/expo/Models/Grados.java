@@ -11,6 +11,7 @@ public class Grados {
     int idDocenteEncargado;
     int idEspecialidad;
     int idGrupoTecnico;
+    byte[] horario;
 
     public Grados(){
 
@@ -28,7 +29,7 @@ public class Grados {
     }
 
 
-    public Grados(int idGrado, int  idNivelAcademico, int idSeccion,int idSeccionBachillerato, int idDocenteEncargado, int idEspecialidad, int idGrupoTecnico ) {
+    public Grados(int idGrado, int  idNivelAcademico, int idSeccion,int idSeccionBachillerato, int idDocenteEncargado, int idEspecialidad, int idGrupoTecnico, byte[] horario ) {
         this.idGrado = idGrado;
         this.idNivelAcademico = idNivelAcademico;
         this.idSeccion = idSeccion;
@@ -36,6 +37,7 @@ public class Grados {
         this.idDocenteEncargado = idDocenteEncargado;
         this. idEspecialidad = idEspecialidad;
         this.idGrupoTecnico  = idGrupoTecnico;
+        this.horario = horario;
     }
 
 

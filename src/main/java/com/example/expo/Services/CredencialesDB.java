@@ -17,6 +17,83 @@ public class CredencialesDB {
 
     public CredencialesDB() { _cn = new Conexion().openDB();}
 
+
+    public CompletableFuture<?> obtenerPersonaByCodigo(String codigo){
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select * from tbCredenciales where codigo = ?;";
+
+            try(PreparedStatement stmt = _cn.prepareStatement(query)){
+                stmt.setString(1,codigo);
+                ResultSet res =stmt.executeQuery();
+
+                if(res.next()){
+                    Credenciales newPersona = new Credenciales(
+                            res.getInt("idPersona"),
+                            res.getString("codigo"),
+                            res.getString("nombrePersona"),
+                            res.getString("apellidoPersona"),
+                            res.getString("nacimientoPersona"),
+                            res.getInt("idTipoPersona"),
+                            res.getString("correo"),
+                            res.getString("claveCredenciales"),
+                            res.getBytes("foto")
+                    );
+                    return newPersona;
+                }
+
+                stmt.close();
+                return null;
+
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((Credenciales, throwable) -> {
+            try{
+                if(_cn != null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+    public CompletableFuture<?> obtenerNombre(int id){
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select nombrePersona from tbCredenciales where idPersona = ?;";
+
+            try(PreparedStatement stmt = _cn.prepareStatement(query)){
+                stmt.setInt(1,id);
+                ResultSet res =stmt.executeQuery();
+
+                if(res.next()){
+                    return res.getString("nombrePersona");
+                }
+
+                stmt.close();
+                return null;
+
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((Credenciales, throwable) -> {
+            try{
+                if(_cn != null && !_cn.isClosed()){
+                    _cn.close();
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static CompletableFuture<List<?>> obtenerCredencialesAsync(){
         return CompletableFuture.supplyAsync(() -> {
             String query = "select * from tbCredenciales;";
@@ -28,7 +105,7 @@ public class CredencialesDB {
 
                 while(res.next()){
                     Credenciales ncredencial =new Credenciales(
-                        res.getInt("idPersona"),
+                            res.getInt("idPersona"),
                             res.getString("codigo"),
                             res.getString("nombrePersona"),
                             res.getString("apellidoPersona"),
@@ -345,11 +422,11 @@ public class CredencialesDB {
 
             try {
                 statement = _cn.createStatement();
-                String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
+                String query = "select idGradoAcademico from tbMatriculas where idEstudiante = " + idPersona;
                 ResultSet res = statement.executeQuery(query);
 
                 while(res.next()){
-                    int idGrado = res.getInt("idGradoTecnico");
+                    int idGrado = res.getInt("idGradoAcademico");
                     PreparedStatement stmt = _cn.prepareStatement("select * from tbGrados where idGrado = ?");
                     stmt.setInt(1,idGrado);
                     ResultSet resultSet = stmt.executeQuery();
@@ -449,11 +526,11 @@ public class CredencialesDB {
 
             try {
                 statement = _cn.createStatement();
-                String query = "select (idGradoAcademico) from tbMatriculas where idEstudiante = " + idPersona;
+                String query = "select (idGradoTecnico) from tbMatriculas where idEstudiante = " + idPersona;
                 ResultSet res = statement.executeQuery(query);
 
                 while(res.next()){
-                    int idGrado = res.getInt("idGradoAcademico");
+                    int idGrado = res.getInt("idGradoTecnico");
                     PreparedStatement stmt = _cn.prepareStatement("select * from tbGrados where idGrado = ?");
                     stmt.setInt(1,idGrado);
                     ResultSet resultSet = stmt.executeQuery();
@@ -465,6 +542,58 @@ public class CredencialesDB {
                         ResultSet resultSet1 = stmt1.executeQuery();
                         if(resultSet1.next()){
                             especialidad = resultSet1.getString("especialidad");
+                        }
+                    }
+                }
+
+                res.close();
+                return especialidad;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return "";
+            } finally {
+                try {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).whenComplete((Credenciales, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<String> obtenerGrupoEstudianteAsync(int idPersona){
+        return CompletableFuture.supplyAsync(() -> {
+            String especialidad = "";
+            Statement statement = null;
+
+            try {
+                statement = _cn.createStatement();
+                String query = "select (idGradoTecnico) from tbMatriculas where idEstudiante = " + idPersona;
+                ResultSet res = statement.executeQuery(query);
+
+                while(res.next()){
+                    int idGrado = res.getInt("idGradoTecnico");
+                    PreparedStatement stmt = _cn.prepareStatement("select * from tbGrados where idGrado = ?");
+                    stmt.setInt(1,idGrado);
+                    ResultSet resultSet = stmt.executeQuery();
+                    if(resultSet.next()){
+                        int idEspecialidad = resultSet.getInt("idGrupoTecnico");
+                        PreparedStatement stmt1 = _cn.prepareStatement("select * from tbGruposTecnicos where idGrupoTecnico = ?");
+
+                        stmt1.setInt(1,idEspecialidad);
+                        ResultSet resultSet1 = stmt1.executeQuery();
+                        if(resultSet1.next()){
+                            especialidad = resultSet1.getString("grupoTecnico");
                         }
                     }
                 }

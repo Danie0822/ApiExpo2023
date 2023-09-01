@@ -20,6 +20,10 @@ public class NivelesAcademicosController {
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new NivelesAcademicosDB().obtenerNiveleAcademicosAsync();
     }
+    @GetMapping("/get/{id}")
+    public CompletableFuture<?> obtenerNivelAcademico(int id){
+        return new NivelesAcademicosDB().obtenerNivelAcademicoAsync(id);
+    }
     @PostMapping("/save")
     public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody NivelesAcademicos NivelesAcademicos) {
         return  NivelesAcademicosDB.insertarNiveleAcademicosAsync(NivelesAcademicos)

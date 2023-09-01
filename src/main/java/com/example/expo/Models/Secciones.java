@@ -11,4 +11,8 @@ public class Secciones {
         this.idSeccion = idSeccion;
         this.seccion = seccion;
     }
+
+    public Secciones(){
+
+    }
 }

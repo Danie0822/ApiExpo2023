@@ -18,6 +18,35 @@ public class GruposTecnicosDB {
     public GruposTecnicosDB(){
         _cn = new Conexion().openDB();
     }
+    public CompletableFuture<?> obtenerGrupo(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select grupoTecnico from tbGruposTecnicos where idGrupoTecnico = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                stnt.setInt(1,id);
+                ResultSet result = stnt.executeQuery();
+
+                if(result.next()){
+                    return result.getString("grupoTecnico");
+                }
+                stnt.close();
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }).whenComplete((gruposTecnicos, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public CompletableFuture<List<?>> obtenerGruposTecnicosAsync() {
             return CompletableFuture.supplyAsync(() -> {
                 String query = "select * from tbGruposTecnicos;";

@@ -11,7 +11,9 @@ public class GradosView {
     String idDocenteEncargado;
     String idEspecialidad;
     String idGrupoTecnico;
-    public GradosView(int  idGrado, String  idNivelAcademico, String idSeccion,String idSeccionBachillerato, String idDocenteEncargado, String idEspecialidad, String idGrupoTecnico ) {
+    byte[] horario;
+
+    public GradosView(int  idGrado, String  idNivelAcademico, String idSeccion,String idSeccionBachillerato, String idDocenteEncargado, String idEspecialidad, String idGrupoTecnico, byte[] horario ) {
         this.idGrado = idGrado;
         this.idNivelAcademico = idNivelAcademico;
         this.idSeccion = idSeccion;
@@ -19,5 +21,6 @@ public class GradosView {
         this.idDocenteEncargado = idDocenteEncargado;
         this. idEspecialidad = idEspecialidad;
         this.idGrupoTecnico  = idGrupoTecnico;
+        this.horario = horario;
     }
 }
