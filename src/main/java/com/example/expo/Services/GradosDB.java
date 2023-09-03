@@ -226,7 +226,7 @@ public class GradosDB {
             new GradosDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec DeleteGrados ?;");
+                statement = _cn.prepareStatement("exec deleteGradospr ?;");
                 statement.setInt(1, id);
 
                 statement.executeUpdate();

@@ -814,7 +814,7 @@ public class CredencialesDB {
             PreparedStatement stmt = null;
             new CredencialesDB();
             try{
-                stmt = _cn.prepareStatement("exec DeleteCredencial ?;");
+                stmt = _cn.prepareStatement("exec DeleteCredencialespr ?;");
                 stmt.setInt(1,id);
                 stmt.executeUpdate();
                 return 1;

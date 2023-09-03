@@ -127,7 +127,7 @@ public class SalonesDB {
             new SalonesDB();
             PreparedStatement statement = null;
             try {
-                statement = _cn.prepareStatement("exec DeleteSalones ?;");
+                statement = _cn.prepareStatement("exec deleteSalonespr ?;");
                 statement.setInt(1, id);
 
                 statement.executeUpdate();
