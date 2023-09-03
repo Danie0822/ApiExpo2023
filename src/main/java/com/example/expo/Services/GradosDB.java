@@ -29,12 +29,12 @@ public class GradosDB {
                 while (result.next()) {
                     GradosView gradosView = new GradosView(
                             result.getInt("idGrado"),
-                            new NivelesAcademicosController().obtenerNivelAcademico(result.getInt("idNivelAcademico")).join().toString(),
-                            new SeccionesController().obtenerSeccion(result.getInt("idSeccion")).join().toString(),
-                            new SeccionesBachilleratosController().obtenerSeccionBachillerato(result.getInt("idSeccionBachillerato")).join().toString(),
-                            new CredencialesController().obtenerNombre(result.getInt("idDocenteEncargado")).join().toString(),
-                            new EspecialidadesController().obtenerEspecialidad(result.getInt("idEspecialidad")).join().toString(),
-                            new GruposTecnicosController().obtenerNombre(result.getInt("idGrupoTecnico")).join().toString(),
+                            result.getString("nivelAcademico"),
+                            result.getString("seccion"),
+                            result.getString("seccionBachillerato"),
+                            result.getString("codigo"),
+                            result.getString("especialidad"),
+                            result.getString("grupoTecnico"),
                             result.getBytes("horario")
                     );
 
