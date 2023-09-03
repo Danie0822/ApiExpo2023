@@ -239,7 +239,7 @@ public class MatriculasDB {
 
     public static CompletableFuture<Integer> eliminarComunicadosAsync(int id) {
         return CompletableFuture.supplyAsync(() -> {
-            new ComunicadosDB();
+            new MatriculasDB();
             String sql = "delete from tbMatriculas where idEstudiante = ?";
             PreparedStatement statement = null;
             try {
