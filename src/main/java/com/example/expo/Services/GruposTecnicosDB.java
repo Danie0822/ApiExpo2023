@@ -33,7 +33,7 @@ public class GruposTecnicosDB {
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((gruposTecnicos, throwable) -> {
             try {

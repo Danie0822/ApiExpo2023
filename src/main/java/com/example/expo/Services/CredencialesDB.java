@@ -48,7 +48,7 @@ public class CredencialesDB {
             }
             catch (Exception e){
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((Credenciales, throwable) -> {
             try{
@@ -80,7 +80,7 @@ public class CredencialesDB {
             }
             catch (Exception e){
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((Credenciales, throwable) -> {
             try{

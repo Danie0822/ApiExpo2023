@@ -35,7 +35,7 @@ public class EspecialidadesDB {
                 return null;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             } finally {
                 try {
                     if (statement != null) {

@@ -66,7 +66,7 @@ public class NivelesAcademicosDB {
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((NivelesAcademicos, throwable) -> {
             try {

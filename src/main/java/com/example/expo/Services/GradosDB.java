@@ -87,7 +87,7 @@ public class GradosDB {
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((grados, throwable) -> {
             try {
@@ -129,7 +129,7 @@ public class GradosDB {
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((grados, throwable) -> {
             try {

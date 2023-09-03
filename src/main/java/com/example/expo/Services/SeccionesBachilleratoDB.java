@@ -32,7 +32,7 @@ public class SeccionesBachilleratoDB {
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((SeccionesBachillerato, throwable) -> {
             try {

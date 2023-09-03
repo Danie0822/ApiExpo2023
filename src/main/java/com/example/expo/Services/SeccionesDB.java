@@ -105,7 +105,7 @@ public class SeccionesDB {
                 return Secciones;
             } catch (Exception e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return null;
             }
         }).whenComplete((Secciones, throwable) -> {
             try {
