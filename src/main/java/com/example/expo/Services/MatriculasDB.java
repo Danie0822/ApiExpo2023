@@ -274,7 +274,7 @@ public class MatriculasDB {
 
     public static CompletableFuture<Integer> actualizarEspecialidadesAsync(Matriculas matricula) {
         return CompletableFuture.supplyAsync(() -> {
-            new ComunicadosDB();
+            new MatriculasDB();
 
             String sql = "update tbMatriculas set idEstudiante = ?, idGradoAcademico = ?, idGradoTecnico = ?, horario = ? where idMatricula = ?";
             PreparedStatement statement = null;
