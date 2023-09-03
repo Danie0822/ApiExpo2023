@@ -199,7 +199,7 @@ public class MatriculasDB {
 
     public static CompletableFuture<Integer> insertarComunicadosAsync(Matriculas matricula) {
         return CompletableFuture.supplyAsync(() -> {
-            new ComunicadosDB();
+            new MatriculasDB();
             String sql = "insert into tbMatriculas values(?,?,?,?)";
 
             PreparedStatement statement = null;
