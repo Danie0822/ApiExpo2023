@@ -19,7 +19,7 @@ public class GradosDB {
     }
     public CompletableFuture<List<?>> obtenerGradosAsync() {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "select * from Grados;";
+            String query = "select * from GradosView;";
 
             try (Statement stnt = _cn.createStatement()) {
                 List<GradosView> grados = new ArrayList<>();
