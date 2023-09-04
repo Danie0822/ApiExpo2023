@@ -195,14 +195,14 @@ public class GradosDB {
                 ResultSet result = stnt.executeQuery();
 
                 if (result.next()) {
-                    Grados Grados2 = new Grados(
+                    GradosView Grados2 = new GradosView(
                             result.getInt("idGrado"),
-                            result.getInt("nivelAcademico"),
-                            result.getInt("seccion"),
-                            result.getInt("seccionBachillerato"),
-                            result.getInt("codigo"),
-                            result.getInt("especialidad"),
-                            result.getInt("grupoTecnico"),
+                            result.getString("nivelAcademico"),
+                            result.getString("seccion"),
+                            result.getString("seccionBachillerato"),
+                            result.getString("codigo"),
+                            result.getString("especialidad"),
+                            result.getString("grupoTecnico"),
                             result.getBytes("horario")
                     );
 
