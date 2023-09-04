@@ -183,6 +183,47 @@ public class GradosDB {
         });
     }
 
+    public CompletableFuture<?> obtenerGradoAsync(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            String query = "select * from GradosView where idGrado = ?;";
+
+            try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+                GradosView grados = new GradosView();
+
+                ResultSet result = stnt.executeQuery();
+
+                if (result.next()) {
+                    Grados Grados2 = new Grados(
+                            result.getInt("idGrado"),
+                            result.getInt("nivelAcademico"),
+                            result.getInt("seccion"),
+                            result.getInt("seccionBachillerato"),
+                            result.getInt("codigo"),
+                            result.getInt("especialidad"),
+                            result.getInt("grupoTecnico"),
+                            result.getBytes("horario")
+                    );
+
+                    return Grados2;
+                }
+                stnt.close();
+                return grados;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).whenComplete((grados, throwable) -> {
+            try {
+                if (_cn != null && !_cn.isClosed()) {
+
+                    _cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 
     public static CompletableFuture<Integer> insertarGradosAsync(Grados grados) {
         return CompletableFuture.supplyAsync(() -> {

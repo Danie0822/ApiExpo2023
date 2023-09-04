@@ -18,6 +18,10 @@ public class GradosController {
     public CompletableFuture<List<?>> obtenerGrupos() {
         return new GradosDB().obtenerGradosAsync();
     }
+    @GetMapping("/get/{id}")
+    public CompletableFuture<?> obtenerGrado(@PathVariable int id) {
+        return new GradosDB().obtenerGradoAsync(id);
+    }
     @GetMapping("/Inint")
     public CompletableFuture<List<?>> obtenerGradosintAsync() {
         return new GradosDB().obtenerGradosintAsync();

@@ -13,6 +13,10 @@ public class GradosView {
     String idGrupoTecnico;
     byte[] horario;
 
+    public GradosView(){
+
+    }
+
     public GradosView(int  idGrado, String  idNivelAcademico, String idSeccion,String idSeccionBachillerato, String idDocenteEncargado, String idEspecialidad, String idGrupoTecnico, byte[] horario ) {
         this.idGrado = idGrado;
         this.idNivelAcademico = idNivelAcademico;
