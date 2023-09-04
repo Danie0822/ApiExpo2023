@@ -188,6 +188,8 @@ public class GradosDB {
             String query = "select * from GradosView where idGrado = ?;";
 
             try (PreparedStatement stnt = _cn.prepareStatement(query)) {
+
+                stnt.setInt(1,id);
                 GradosView grados = new GradosView();
 
                 ResultSet result = stnt.executeQuery();
