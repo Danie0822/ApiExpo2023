@@ -1,9 +1,6 @@
 package com.example.expo.Services;
 
-import com.example.expo.Models.Contra;
-import com.example.expo.Models.Credenciales;
-import com.example.expo.Models.ObservacionesString;
-import com.example.expo.Models.Recu;
+import com.example.expo.Models.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -728,7 +725,7 @@ public class CredencialesDB {
         });
     }
 
-    public static CompletableFuture<Integer> insertarCredencialesAsync(Credenciales credencial){
+    public static CompletableFuture<Integer> insertarCredencialesAsync(CredeInsertUpdate credencial){
         return CompletableFuture.supplyAsync(() ->{
             PreparedStatement stmt = null;
             new CredencialesDB();
@@ -738,7 +735,7 @@ public class CredencialesDB {
                 stmt.setString(2,credencial.getNombrePersona());
                 stmt.setString(3, credencial.getApellidoPersona());
                 stmt.setString(4,  credencial.getNacimientoPersona());
-                stmt.setInt(5, credencial.getIdTipoPersona());
+                stmt.setString(5, credencial.getIdTipoPersona());
                 stmt.setString(6, credencial.getCorreo());
                 stmt.setString(7, credencial.getClaveCredenciales());
                 stmt.setBytes(8, credencial.getFoto());
@@ -768,7 +765,7 @@ public class CredencialesDB {
         });
     }
 
-    public static CompletableFuture<Integer> actualizarCredencialesAsync(Credenciales credencial){
+    public static CompletableFuture<Integer> actualizarCredencialesAsync(CredeInsertUpdate credencial){
         return CompletableFuture.supplyAsync(() ->{
             PreparedStatement stmt = null;
             new CredencialesDB();
@@ -779,7 +776,7 @@ public class CredencialesDB {
                 stmt.setString(3,credencial.getNombrePersona());
                 stmt.setString(4, credencial.getApellidoPersona());
                 stmt.setString(5, credencial.getNacimientoPersona());
-                stmt.setInt(6, credencial.getIdTipoPersona());
+                stmt.setString(6, credencial.getIdTipoPersona());
                 stmt.setString(7, credencial.getCorreo());
                 stmt.setString(8, credencial.getClaveCredenciales());
                 stmt.setBytes(9, credencial.getFoto());

@@ -1,6 +1,7 @@
 package com.example.expo.Controllers;
 
 import com.example.expo.Models.Contra;
+import com.example.expo.Models.CredeInsertUpdate;
 import com.example.expo.Models.Credenciales;
 import com.example.expo.Models.ServiceResponse;
 import com.example.expo.Services.CodigosConductualesDB;
@@ -137,7 +138,7 @@ public class CredencialesController {
         return Credenciales;
     }
     @PostMapping("/save")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody Credenciales credenciales){
+    public CompletableFuture<ResponseEntity<ServiceResponse>> save(@RequestBody CredeInsertUpdate credenciales){
         CompletableFuture<Integer> futureRes = CredencialesDB.insertarCredencialesAsync(credenciales);
 
         return futureRes.thenApply(result -> {
@@ -215,7 +216,7 @@ public class CredencialesController {
         });
     }
     @PutMapping("/update")
-    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody Credenciales credenciales){
+    public CompletableFuture<ResponseEntity<ServiceResponse>> update(@RequestBody CredeInsertUpdate credenciales){
         CompletableFuture<Integer> futureRes = CredencialesDB.actualizarCredencialesAsync(credenciales);
         return futureRes.thenApply(result -> {
             ServiceResponse serviceResponse = new ServiceResponse();
