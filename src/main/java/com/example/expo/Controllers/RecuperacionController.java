@@ -22,7 +22,8 @@ public class RecuperacionController {
 
     @PostMapping("/enviarCodigo")
     public CompletableFuture<ResponseEntity<ServiceResponse>> enviarCodigo(@RequestBody Correo correo) throws MessagingException {
-        CompletableFuture<Void> emailFuture = emailService.enviarCodigoRecuperacionAsync(correo);
+        CompletableFuture<Void> emailFuture = emailService.
+                enviarCodigoRecuperacionAsync(correo);
 
         return emailFuture.thenApplyAsync(v -> {
             ServiceResponse serviceResponse = new ServiceResponse();

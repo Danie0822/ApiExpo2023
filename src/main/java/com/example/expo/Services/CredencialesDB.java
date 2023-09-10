@@ -306,7 +306,7 @@ public class CredencialesDB {
 
     public CompletableFuture<List<?>> ObtenerProfesor(String correo) {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "SELECT idPersona, idTipoPersona, correo FROM tbCredenciales where correo = ? ;";
+            String query = "SELECT idPersona, idTipoPersona, correo, telefonoPersona FROM tbCredenciales where correo = ? ;";
 
             try (PreparedStatement stmt = _cn.prepareStatement(query)) {
                 stmt.setString(1, correo);
@@ -319,7 +319,9 @@ public class CredencialesDB {
                     Recu ncredencial = new Recu(
                             res.getInt("idPersona"),
                             res.getInt("idTipoPersona"),
-                            res.getString("correo")
+                            res.getString("correo"),
+                            res.getString("telefonoPersona")
+
                     );
                     credenciales.add(ncredencial);
                 }
