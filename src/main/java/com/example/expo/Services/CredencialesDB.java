@@ -732,7 +732,7 @@ public class CredencialesDB {
             PreparedStatement stmt = null;
             new CredencialesDB();
             try{
-                stmt = _cn.prepareStatement("exec AgregarCredenciales ?,?,?,?,?,?,?,?;");
+                stmt = _cn.prepareStatement("exec AgregarCredenciales ?,?,?,?,?,?,?,?,?;");
                 stmt.setString(1,credencial.getCodigo());
                 stmt.setString(2,credencial.getNombrePersona());
                 stmt.setString(3, credencial.getApellidoPersona());
@@ -741,6 +741,7 @@ public class CredencialesDB {
                 stmt.setString(6, credencial.getCorreo());
                 stmt.setString(7, credencial.getClaveCredenciales());
                 stmt.setBytes(8, credencial.getFoto());
+                stmt.setString(9, credencial.getTelefonoPersona());
                 stmt.executeUpdate();
                 return 1;
             }
@@ -772,7 +773,7 @@ public class CredencialesDB {
             PreparedStatement stmt = null;
             new CredencialesDB();
             try{
-                stmt = _cn.prepareStatement("exec ActualizarCredenciales ?,?,?,?,?,?,?,?,?;");
+                stmt = _cn.prepareStatement("exec ActualizarCredenciales ?,?,?,?,?,?,?,?,?,?;");
                 stmt.setInt(1, credencial.getIdPersona());
                 stmt.setString(2,credencial.getCodigo());
                 stmt.setString(3,credencial.getNombrePersona());
@@ -782,6 +783,7 @@ public class CredencialesDB {
                 stmt.setString(7, credencial.getCorreo());
                 stmt.setString(8, credencial.getClaveCredenciales());
                 stmt.setBytes(9, credencial.getFoto());
+                stmt.setString(10, credencial.getTelefonoPersona());
                 stmt.executeUpdate();
                 return 1;
             }
