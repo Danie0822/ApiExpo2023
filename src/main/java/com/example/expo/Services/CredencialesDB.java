@@ -110,7 +110,8 @@ public class CredencialesDB {
                             res.getInt("idTipoPersona"),
                             res.getString("correo"),
                             res.getString("claveCredenciales"),
-                            res.getBytes("foto")
+                            res.getBytes("foto"),
+                            res.getString("telefonoPersona")
                     );
                     credenciales.add(ncredencial);
                 }
