@@ -338,7 +338,8 @@ public class FuncionesDB {
                             result.getString("Reservante"),
                             result.getString("motivoReserva"),
                             result.getInt("idReservante"),
-                            result.getInt("Estado")
+                            result.getInt("Estado"),
+                            result.getString("Fecha")
                     );
 
                     ReservacionesSalonestring.add(ReservacionesSalonestring2);

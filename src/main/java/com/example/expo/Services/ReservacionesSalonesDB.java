@@ -33,7 +33,8 @@ public class ReservacionesSalonesDB {
                             result.getInt("idRangoHora"),
                             result.getInt("idReservante"),
                             result.getString("motivoReserva"),
-                            result.getInt("Estado")
+                            result.getInt("Estado"),
+                            result.getString("Fecha")
                     );
 
                     ReservacionesSalones.add(reservacionesSalones);
@@ -67,7 +68,7 @@ public class ReservacionesSalonesDB {
     public static CompletableFuture<Integer> insertarReservacionesSalonesAsync(ReservacionesSalones ReservacionesSalones) {
         return CompletableFuture.supplyAsync(() -> {
             new ReservacionesSalonesDB();
-            String sql = "exec AgregarReservacionesSalones ?,?,?,?,?;";
+            String sql = "exec AgregarReservacionesSalones ?,?,?,?,?,?;";
 
             PreparedStatement statement = null;
             try {
@@ -77,6 +78,7 @@ public class ReservacionesSalonesDB {
                 statement.setInt(3, ReservacionesSalones.getIdReservante());
                 statement.setString(4, ReservacionesSalones.getMotivoReserva());
                 statement.setInt(5, ReservacionesSalones.getEstado());
+                statement.setString(6, ReservacionesSalones.getFecha());
                 statement.executeUpdate();
 
                 return 1;
