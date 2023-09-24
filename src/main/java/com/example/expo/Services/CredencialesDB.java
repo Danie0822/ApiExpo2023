@@ -231,7 +231,7 @@ public class CredencialesDB {
 
     public CompletableFuture<List<?>> obtenerCredencialesAsync(String correo, String claveCredenciales) {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "SELECT * FROM tbCredenciales WHERE correo = ? AND claveCredenciales = ?";
+            String query = "exec ConsultarCredenciales ?,?";
 
             try (PreparedStatement stmt = _cn.prepareStatement(query)) {
                 stmt.setString(1, correo);
