@@ -60,25 +60,15 @@ public class CredencialesDB {
     }
     public CompletableFuture<?> obtenerPersonasCodigo(String codigo){
         return CompletableFuture.supplyAsync(() -> {
-            String query = "select * from tbCredenciales where codigo = ?;";
+            String query = "select idPersona from tbCredenciales where codigo = ?;";
 
             try(PreparedStatement stmt = _cn.prepareStatement(query)){
                 stmt.setString(1,codigo);
                 ResultSet res =stmt.executeQuery();
 
                 if(res.next()){
-                    Credenciales credencial = new Credenciales(
-                            res.getInt("idPersona"),
-                            res.getString("codigo"),
-                            res.getString("nombrePersona"),
-                            res.getString("apellidoPersona"),
-                            res.getString("nacimientoPersona"),
-                            res.getInt("idTipoPersona"),
-                            res.getString("correo"),
-                            res.getString("claveCredenciales"),
-                            res.getBytes("foto")
-                    );
-                    return credencial;
+                    return res.getInt("idPersona");
+
                 }
 
                 stmt.close();
