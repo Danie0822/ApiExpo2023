@@ -8,10 +8,10 @@ public class Conexion {
     public Connection openDB(){
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
-            String connectionUrl = "jdbc:sqlserver://Expo2023.mssql.somee.com;"
-            + "databaseName=Expo2023;"
-            + "user=Daniel0822_SQLLogin_1;"
-            + "password=upb7jvougo;"
+            String connectionUrl = "jdbc:sqlserver://SAE2023.mssql.somee.com;"
+            + "databaseName=SAE2023;"
+            + "user=Expo_SQLLogin_2;"
+            + "password=u2agtmow35;"
             + "trustServerCertificate=true";
             Connection con = DriverManager.getConnection(connectionUrl);
             return con;
