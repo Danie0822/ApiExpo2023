@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("Funciones")
-@CrossOrigin
+@CrossOrigin(origins = "https://expo-movil.vercel.app")
 public class FuncionesController {
     @GetMapping("/CodigosConductuales")
     public List<?> obtenerGrupos() {

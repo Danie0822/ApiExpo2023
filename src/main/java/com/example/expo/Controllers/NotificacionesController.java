@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("Notificaciones")
+@CrossOrigin(origins = "https://expo-movil.vercel.app")
 public class NotificacionesController {
     @GetMapping("/list")
     public List<?> obtenerGrupos() {

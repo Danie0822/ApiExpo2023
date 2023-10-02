@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("Credenciales")
-@CrossOrigin
+@CrossOrigin(origins = "https://expo-movil.vercel.app")
 public class CredencialesController {
 
 

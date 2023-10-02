@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("CodigosConductuales")
+@CrossOrigin(origins = "https://expo-movil.vercel.app")
 public class CodigosConductualesController {
     @GetMapping("/list")
     public List<?> obtenerCodigos(){

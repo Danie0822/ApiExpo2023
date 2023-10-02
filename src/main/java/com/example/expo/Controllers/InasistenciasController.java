@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("Inasistencias")
+@CrossOrigin(origins = "https://expo-movil.vercel.app")
 public class InasistenciasController {
     @GetMapping("/list")
     public List<?> obtenerGrupos() {

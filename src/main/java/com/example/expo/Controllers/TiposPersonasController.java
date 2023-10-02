@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("TiposPersonas")
+@CrossOrigin(origins = "https://expo-movil.vercel.app")
 public class TiposPersonasController {
 
 
