@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("Credenciales")
+@CrossOrigin
 public class CredencialesController {
 
 

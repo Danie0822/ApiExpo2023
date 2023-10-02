@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("Comunicados")
+@CrossOrigin
 public class ComunicadosController {
     @GetMapping("/list")
     public List<?> obtenerGrupos() {

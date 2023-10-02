@@ -2,16 +2,14 @@ package com.example.expo.Controllers;
 
 import com.example.expo.Services.FuncionesDB;
 import com.example.expo.Services.VisitasEnfermeriaDB;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("Funciones")
+@CrossOrigin
 public class FuncionesController {
     @GetMapping("/CodigosConductuales")
     public List<?> obtenerGrupos() {
